@@ -7,14 +7,26 @@
     height:100vh;
 }
 
-.login-form{
+#login-form{
     background-color:white;
     padding: 70px;
     border-radius: 20px;
     border: 2px solid #ccc;
     box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
     text-align: center;
+    display:flex;
+    flex-direction: column;
+    gap: 20px;
     font-family: 'Space Grotesk', sans-serif;
+}
+
+.logo{
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin-bottom: 20px;
+    display:flex;
+    justify-content:space-between;
 }
 
 /*index.html*/
