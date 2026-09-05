@@ -20,13 +20,29 @@
     font-family: 'Space Grotesk', sans-serif;
 }
 
-.logo{
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
+.logos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
     margin-bottom: 20px;
-    display:flex;
-    justify-content:space-between;
+}
+
+.logo {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+}
+
+.logo:first-child {
+    width: 140px;
+    height: 120px;
+}
+
+.logo:last-child {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
 }
 
 /*index.html*/
