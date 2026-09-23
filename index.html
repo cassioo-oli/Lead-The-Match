@@ -1,22 +1,228 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lead The Match | Torneio de Robótica de Gravataí</title>
-    <link rel="stylesheet" href="stylesheet.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lead The Match | Torneio de Robótica de Gravataí</title>
+  <link rel="stylesheet" href="stylesheet.css">
 </head>
-<body>
-    <nav>
-        <ul class="menu">
-            <li><a href="index.html">Início</a></li>
-            <li><a href="listaPartidas.html">Lista de Partidas</a></li>
-            <li><a href="ranking.html">Ranking</a></li>
-            <li><a href="scout.html">Scouting</a></li>
-            <li><a href="pitScout.html">Pit Scouting</a></li>
-            <li><a href="estatisticas.html">Estatísticas</a></li>
-        </ul>
-    </nav>
 
+<body>
+  <nav>
+    <div class="nav-content">
+      <a class="logo" href="index.html">LEAD <span>THE MATCH</span></a>
+
+      <ul class="menu">
+        <li><a class="ativo" href="index.html">Início</a></li>
+        <li><a href="listaPartidas.html">Lista de Partidas</a></li>
+        <li><a href="ranking.html">Ranking</a></li>
+        <li><a href="scout.html">Scouting</a></li>
+        <li><a href="pitScout.html">Pit Scouting</a></li>
+        <li><a href="estatisticas.html">Estatísticas</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero">
+      <div class="hero-texto">
+        <p class="etiqueta">TORNEIO DE ROBÓTICA DE GRAVATAÍ 2026</p>
+        <h1>Lead The Match</h1>
+        <p>
+          Acompanhe partidas, equipes, rankings e estratégias da temporada
+          <strong>Go-Up</strong> em um só lugar.
+        </p>
+        <a class="botao botao-claro" href="#temporada">Conhecer a temporada</a>
+      </div>
+
+      <div class="hero-card">
+        <p> Duração da partida</p>
+        <strong>2min30s</strong>
+        <hr>
+        <p> Início da partida</p>
+        <strong>Modo autônomo</strong>
+      </div>
+    </section>
+
+    <section class="container ltm">
+      <p class="etiqueta azul">SOBRE A PLATAFORMA</p>
+      <h2>O que é o Lead The Match?</h2>
+      <p>
+        O Lead The Match é um sistema criado para facilitar o acompanhamento
+        do torneio. Aqui você pode consultar partidas, analisar robôs, registrar
+        informações de scouting e acompanhar o ranking das equipes.
+      </p>
+    </section>
+
+    <section class="temporada" id="temporada">
+      <div class="container">
+        <p class="etiqueta">TEMPORADA 2026</p>
+        <h2>Go-Up: objetivo do jogo</h2>
+        <p class="introducao">
+          Duas equipes jogam simultaneamente. O objetivo é coletar os
+          <strong>Pilares</strong> e posicioná-los no <strong>Mural Financeiro</strong>.
+          Além dos pontos individuais, as equipes podem cooperar para conquistar
+          pontos extras. No final, os robôs podem se pendurar nos
+          <strong>Fluxos Criativos</strong>.
+        </p>
+
+        <div class="etapas">
+          <article>
+            <span>01</span>
+            <h3>Início autônomo</h3>
+            <p>Os robôs começam a partida funcionando sozinhos.</p>
+          </article>
+
+          <article>
+            <span>02</span>
+            <h3>Teleoperado</h3>
+            <p>Após 45 segundos, a equipe pode mudar para o controle manual.</p>
+          </article>
+
+          <article>
+            <span>03</span>
+            <h3>Cooperação</h3>
+            <p>As equipes podem colaborar para aumentar a pontuação.</p>
+          </article>
+
+          <article>
+            <span>04</span>
+            <h3>Final da partida</h3>
+            <p>O robô pode se pendurar em um Fluxo Criativo para pontuar.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="container regras">
+      <div class="titulo-secao">
+        <div>
+          <p class="etiqueta azul">GUIA RÁPIDO</p>
+          <h2>Regras e pontuação</h2>
+        </div>
+        <p>Os pontos são contabilizados no final da partida.</p>
+      </div>
+
+      <div class="pontuacao-grid">
+        <article class="card card-destaque">
+          <h3>Pontos individuais</h3>
+          <p>Use os Pilares da cor da sua equipe no Mural Financeiro.</p>
+
+          <div class="pontuacao">
+            <span>Chão do mural</span><strong>+1</strong>
+          </div>
+          <div class="pontuacao">
+            <span>Nível 1 — N1</span><strong>+2</strong>
+          </div>
+          <div class="pontuacao">
+            <span>Nível 2 — N2</span><strong>+3</strong>
+          </div>
+          <div class="pontuacao">
+            <span>Nível 3 — N3</span><strong>+4</strong>
+          </div>
+          <div class="pontuacao">
+            <span>Pendurar no Fluxo</span><strong>+8</strong>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>Pontos de cooperação</h3>
+          <p>As equipes podem ajudar uma à outra durante a partida.</p>
+
+          <div class="cooperacao">
+            <strong>Coopetition — +2</strong>
+            <p>Pilares nos mesmos pinos N1 dos dois lados do mural.</p>
+          </div>
+
+          <div class="cooperacao">
+            <strong>Networking — +6</strong>
+            <p>Pilar da cor da outra equipe no pino central cooperativo.</p>
+          </div>
+
+          <div class="cooperacao">
+            <strong>Integration — +4</strong>
+            <p>Os dois robôs se penduram no mesmo Fluxo Criativo.</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="tabela-area">
+        <h3>Resumo da pontuação</h3>
+        <div class="tabela-responsiva">
+          <table>
+            <thead>
+              <tr>
+                <th>Missão</th>
+                <th>Tipo</th>
+                <th>Pontos</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Pilar no chão do mural</td><td>Individual</td><td>+1</td></tr>
+              <tr><td>Pilar no N1</td><td>Individual</td><td>+2</td></tr>
+              <tr><td>Pilar no N2</td><td>Individual</td><td>+3</td></tr>
+              <tr><td>Pilar no N3</td><td>Individual</td><td>+4</td></tr>
+              <tr><td>Robô pendurado no Fluxo</td><td>Individual</td><td>+8</td></tr>
+              <tr><td>Missões cooperativas</td><td>Cooperação</td><td>+2, +4 ou +6</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="manual">
+      <div class="container manual-conteudo">
+        <div>
+          <p class="etiqueta">REGULAMENTO OFICIAL</p>
+          <h2>Quer ver todas as regras?</h2>
+          <p>
+            Consulte o manual completo para entender medidas da quadra,
+            inspeção, penalidades e detalhes das partidas.
+          </p>
+        </div>
+
+        <a class="botao botao-claro"
+          href="https://docs.google.com/document/d/1hEIyC1__Ul3e_ppxTYKzlPulOkx_J4i9zjnZjsVZyow/edit?usp=sharing"
+          target="_blank" rel="noopener">
+          Acessar manual ↗
+        </a>
+      </div>
+    </section>
+
+    <section class="container como-utilizar">
+      <p class="etiqueta azul">COMO UTILIZAR</p>
+      <h2>Use o Lead The Match durante o torneio</h2>
+
+      <div class="passos">
+        <article>
+          <span>1</span>
+          <h3>Consulte as partidas</h3>
+          <p>Veja horários, rodadas e quais equipes estarão na quadra.</p>
+        </article>
+
+        <article>
+          <span>2</span>
+          <h3>Faça o scouting</h3>
+          <p>Registre informações sobre a estratégia e o desempenho dos robôs.</p>
+        </article>
+
+        <article>
+          <span>3</span>
+          <h3>Analise as equipes</h3>
+          <p>Use o Pit Scouting para conhecer construção, mecanismos e ideias.</p>
+        </article>
+
+        <article>
+          <span>4</span>
+          <h3>Acompanhe o ranking</h3>
+          <p>Veja as pontuações e compare os resultados das equipes.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Lead The Match • Torneio de Robótica de Gravataí</p>
+  </footer>
 </body>
 </html>

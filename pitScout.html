@@ -1,22 +1,248 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lead The Match | Torneio de Robótica de Gravataí</title>
-    <link rel="stylesheet" href="stylesheet.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pit Scouting | Lead The Match</title>
+  <link rel="stylesheet" href="stylesheet.css">
 </head>
-<body>
-    <nav>
-        <ul class="menu">
-            <li><a href="index.html">Início</a></li>
-            <li><a href="listaPartidas.html">Lista de Partidas</a></li>
-            <li><a href="ranking.html">Ranking</a></li>
-            <li><a href="scout.html">Scouting</a></li>
-            <li><a href="pitScout.html">Pit Scouting</a></li>
-            <li><a href="estatisticas.html">Estatísticas</a></li>
-        </ul>
-    </nav>
 
+<body>
+  <nav>
+    <div class="nav-content">
+      <a class="logo" href="index.html">LEAD <span>THE MATCH</span></a>
+
+      <ul class="menu">
+        <li><a href="index.html">Início</a></li>
+        <li><a href="listaPartidas.html">Lista de Partidas</a></li>
+        <li><a href="ranking.html">Ranking</a></li>
+        <li><a href="scout.html">Scouting</a></li>
+        <li><a class="ativo" href="pitScout.html">Pit Scouting</a></li>
+        <li><a href="estatisticas.html">Estatísticas</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="pit-page">
+    <section class="pit-cabecalho">
+      <div class="container">
+        <p class="etiqueta">PIT SCOUTING</p>
+        <h1>Conheça os robôs das equipes</h1>
+        <p>Escolha uma equipe, faça as perguntas e registre as informações.</p>
+      </div>
+    </section>
+
+    <section class="container pit-secao" id="selecao-equipe">
+      <p class="etiqueta azul">PASSO 1 DE 2</p>
+      <h2>Qual equipe será entrevistada?</h2>
+      <p class="pit-ajuda">Clique em uma equipe para iniciar o Pit Scouting.</p>
+
+      <div class="pit-equipes" id="listaEquipes">
+        <button class="pit-equipe" type="button" data-equipe="Tech Hunters">Tech Hunters</button>
+        <button class="pit-equipe" type="button" data-equipe="The Phoenix">The Phoenix</button>
+        <button class="pit-equipe" type="button" data-equipe="Pasqual Maker I">Pasqual Maker I</button>
+        <button class="pit-equipe" type="button" data-equipe="Pasqual Maker II">Pasqual Maker II</button>
+        <button class="pit-equipe" type="button" data-equipe="Eletro Tech">Eletro Tech</button>
+        <button class="pit-equipe" type="button" data-equipe="Tech Wizard">Tech Wizard</button>
+        <button class="pit-equipe" type="button" data-equipe="Robotchê">Robotchê</button>
+        <button class="pit-equipe" type="button" data-equipe="Velozes e Robóticos">Velozes e Robóticos</button>
+        <button class="pit-equipe" type="button" data-equipe="Robotclub">Robotclub</button>
+        <button class="pit-equipe" type="button" data-equipe="Jaguars">Jaguars</button>
+        <button class="pit-equipe" type="button" data-equipe="Humanóides">Humanóides</button>
+        <button class="pit-equipe" type="button" data-equipe="Void">Void</button>
+        <button class="pit-equipe" type="button" data-equipe="Rooster">Rooster</button>
+        <button class="pit-equipe" type="button" data-equipe="PF Tech">PF Tech</button>
+        <button class="pit-equipe" type="button" data-equipe="Red Code">Red Code</button>
+        <button class="pit-equipe" type="button" data-equipe="Spark">Spark</button>
+        <button class="pit-equipe" type="button" data-equipe="Irapuã Tech">Irapuã Tech</button>
+        <button class="pit-equipe" type="button" data-equipe="Alcatech">Alcatech</button>
+        <button class="pit-equipe" type="button" data-equipe="Freire Tech">Freire Tech</button>
+        <button class="pit-equipe" type="button" data-equipe="Kuaray Rete">Kuaray Rete</button>
+        <button class="pit-equipe" type="button" data-equipe="Hexabits">Hexabits</button>
+        <button class="pit-equipe" type="button" data-equipe="Tecno Spider">Tecno Spider</button>
+        <button class="pit-equipe" type="button" data-equipe="Aurora">Aurora</button>
+        <button class="pit-equipe" type="button" data-equipe="Lego Monsters">Lego Monsters</button>
+        <button class="pit-equipe" type="button" data-equipe="Robotics Maker">Robotics Maker</button>
+        <button class="pit-equipe" type="button" data-equipe="Robotic Dragons">Robotic Dragons</button>
+        <button class="pit-equipe" type="button" data-equipe="Tech Pantera">Tech Pantera</button>
+        <button class="pit-equipe" type="button" data-equipe="Blaze Fox">Blaze Fox</button>
+        <button class="pit-equipe" type="button" data-equipe="Meca Taygers">Meca Taygers</button>
+        <button class="pit-equipe" type="button" data-equipe="Lady Bots">Lady Bots</button>
+        <button class="pit-equipe" type="button" data-equipe="Eletrosceno">Eletrosceno</button>
+        <button class="pit-equipe" type="button" data-equipe="Damatronic">Damatronic</button>
+        <button class="pit-equipe" type="button" data-equipe="Coalabots">Coalabots</button>
+        <button class="pit-equipe" type="button" data-equipe="Guardiões Botz">Guardiões Botz</button>
+        <button class="pit-equipe" type="button" data-equipe="Curiosity">Curiosity</button>
+        <button class="pit-equipe" type="button" data-equipe="Megarobert">Megarobert</button>
+        <button class="pit-equipe" type="button" data-equipe="Só Gambiarras">Só Gambiarras</button>
+        <button class="pit-equipe" type="button" data-equipe="Hakeabots">Hakeabots</button>
+        <button class="pit-equipe" type="button" data-equipe="Duque Maker">Duque Maker</button>
+        <button class="pit-equipe" type="button" data-equipe="Tecnoibots">Tecnoibots</button>
+        <button class="pit-equipe" type="button" data-equipe="Brenotech">Brenotech</button>
+        <button class="pit-equipe" type="button" data-equipe="Mini-Cientistas do Kuaray">Mini-Cientistas do Kuaray</button>
+        <button class="pit-equipe" type="button" data-equipe="Metal Bots">Metal Bots</button>
+        <button class="pit-equipe" type="button" data-equipe="Byte Force">Byte Force</button>
+      </div>
+
+      <p class="pit-status" id="statusMsg"></p>
+    </section>
+
+    <section class="container pit-secao escondido" id="formulario-pit">
+      <button class="pit-voltar" type="button" id="voltarSelecao">
+        ← Trocar equipe
+      </button>
+
+      <p class="etiqueta azul">PASSO 2 DE 2</p>
+      <h2>Pit Scouting: <span id="equipeEscolhida"></span></h2>
+      <p class="pit-ajuda">Preencha as informações da equipe escolhida.</p>
+
+      <form class="pit-formulario" id="pitForm">
+        <input type="hidden" id="selecaoEquipe" name="selecaoEquipe">
+
+        <div class="pit-pergunta">
+          <label for="dimensoesRobos">Quais são as dimensões do robô?</label>
+          <input id="dimensoesRobos" name="dimensoesRobos" type="text"
+            placeholder="Ex.: 20 cm x 30 cm" required>
+        </div>
+
+        <div class="pit-pergunta">
+          <label for="qntdMaxPilares">Quantos Pilares consegue carregar?</label>
+          <input id="qntdMaxPilares" name="qntdMaxPilares" type="number"
+            min="0" placeholder="Ex.: 3" required>
+        </div>
+
+        <div class="pit-pergunta">
+          <label for="passagemEmbaixoFluxo">Consegue passar embaixo do Fluxo?</label>
+          <select id="passagemEmbaixoFluxo" name="passagemEmbaixoFluxo" required>
+            <option value="">Selecione</option>
+            <option>Sim</option>
+            <option>Não</option>
+            <option>Não observado</option>
+          </select>
+        </div>
+
+        <div class="pit-pergunta">
+          <label for="ladosColeta">De quais lados consegue coletar Pilares?</label>
+          <input id="ladosColeta" name="ladosColeta" type="text"
+            placeholder="Ex.: frente e lateral" required>
+        </div>
+
+        <div class="pit-pergunta">
+          <label for="estilosColeta">Como funciona o mecanismo de coleta?</label>
+          <textarea id="estilosColeta" name="estilosColeta" rows="3"
+            placeholder="Ex.: garra, esteira, empurrador..." required></textarea>
+        </div>
+
+        <div class="pit-pergunta">
+          <label for="niveisPontuacao">Em quais níveis do Mural consegue pontuar?</label>
+          <input id="niveisPontuacao" name="niveisPontuacao" type="text"
+            placeholder="Ex.: chão, N1 e N2" required>
+        </div>
+
+        <div class="pit-pergunta">
+          <label for="escaladaAoFinal">Consegue se pendurar no Fluxo?</label>
+          <select id="escaladaAoFinal" name="escaladaAoFinal" required>
+            <option value="">Selecione</option>
+            <option>Sim</option>
+            <option>Não</option>
+            <option>Ainda está em testes</option>
+          </select>
+        </div>
+
+        <div class="pit-pergunta">
+          <label for="equipamentoRobo">Quais materiais foram usados?</label>
+          <textarea id="equipamentoRobo" name="equipamentoRobo" rows="3"
+            placeholder="Ex.: LEGO SPIKE, motores, garra..." required></textarea>
+        </div>
+
+        <div class="pit-pergunta">
+          <label for="qntdMotoresSensores">Quantos motores e sensores possui?</label>
+          <input id="qntdMotoresSensores" name="qntdMotoresSensores" type="text"
+            placeholder="Ex.: 4 motores e 2 sensores" required>
+        </div>
+
+        <div class="pit-pergunta">
+          <label for="modoOperacional">Como o robô funciona na partida?</label>
+          <select id="modoOperacional" name="modoOperacional" required>
+            <option value="">Selecione</option>
+            <option>Autônomo e teleoperado</option>
+            <option>Somente autônomo</option>
+            <option>Somente teleoperado</option>
+          </select>
+        </div>
+
+        <div class="pit-pergunta pit-pergunta-larga">
+          <label for="linguagemProgramacao">Qual programa ou linguagem foi usado?</label>
+          <input id="linguagemProgramacao" name="linguagemProgramacao" type="text"
+            placeholder="Ex.: SPIKE App, Python, Arduino IDE..." required>
+        </div>
+
+        <button class="botao pit-enviar" type="submit">
+          Carregar dados
+        </button>
+      </form>
+    </section>
+
+    <section class="container pit-confirmacao escondido" id="dados-enviados">
+      <div class="pit-confirmacao-card">
+        <span>✓</span>
+        <p class="etiqueta azul">REGISTRO CONCLUÍDO</p>
+        <h2>Dados enviados!</h2>
+        <p>
+          O Pit Scouting da equipe
+          <strong id="nomeEquipeEnviada"></strong> foi registrado.
+        </p>
+
+        <button class="botao" type="button" id="voltarPitScout">
+          Voltar ao Pit Scouting
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const selecaoEquipe = document.getElementById("selecao-equipe");
+    const formularioPit = document.getElementById("formulario-pit");
+    const dadosEnviados = document.getElementById("dados-enviados");
+    const listaEquipes = document.getElementById("listaEquipes");
+
+    function abrirFormulario(nomeEquipe) {
+      document.getElementById("selecaoEquipe").value = nomeEquipe;
+      document.getElementById("equipeEscolhida").textContent = nomeEquipe;
+
+      selecaoEquipe.classList.add("escondido");
+      formularioPit.classList.remove("escondido");
+      dadosEnviados.classList.add("escondido");
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    }
+
+    listaEquipes.addEventListener("click", function (evento) {
+      const botao = evento.target.closest(".pit-equipe");
+
+      if (!botao) return;
+
+      abrirFormulario(botao.dataset.equipe);
+    });
+
+    function voltarParaEquipes() {
+      formularioPit.classList.add("escondido");
+      dadosEnviados.classList.add("escondido");
+      selecaoEquipe.classList.remove("escondido");
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    }
+
+    document.getElementById("voltarSelecao").addEventListener("click", voltarParaEquipes);
+    document.getElementById("voltarPitScout").addEventListener("click", voltarParaEquipes);
+  </script>
+
+  <script src="pitscouting.js"></script>
 </body>
 </html>
