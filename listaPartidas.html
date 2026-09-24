@@ -422,7 +422,7 @@
       }
 
       console.log("🔎 Iniciando atualização do cronograma...");
-      const data = await carregarSheetData("https://docs.google.com/spreadsheets/d/1R1JcLto9Eowp3VG-SWhJIve4Q9ikWV3ani4eWzOhRoc/edit?usp=sharing&gid=70923099#gid=70923099")
+      const data = await carregarSheetData("https://docs.google.com/spreadsheets/d/1SW3MyTRQzhMUCHjvXLhrdTijCCtq1yfgv6RAHdV9QYs/edit?gid=2032908800#gid=2032908800") //ATUALIZADO 2026
       console.log("📄 Linhas da planilha (agenda):", data);
       let jogosAgrupados = []
       data.forEach(jogo => {
@@ -444,7 +444,7 @@
       })
       console.log("🧩 Jogos agrupados:", jogosAgrupados);
 
-      const dataJogosJogados = await carregarSheetData("https://docs.google.com/spreadsheets/d/1R1JcLto9Eowp3VG-SWhJIve4Q9ikWV3ani4eWzOhRoc/edit?usp=sharing&gid=283528837#gid=283528837")
+      const dataJogosJogados = await carregarSheetData("https://docs.google.com/spreadsheets/d/1R1JcLto9Eowp3VG-SWhJIve4Q9ikWV3ani4eWzOhRoc/edit?usp=sharing&gid=283528837#gid=283528837") //TABELA RESULTADO 2025
       console.log("📄 Linhas da planilha (resultados):", dataJogosJogados);
       const jogosJogadosMap = {}
       dataJogosJogados.forEach(item => {
@@ -573,7 +573,7 @@
 
     // Atualiza a tabela imediatamente e depois a cada 30s
     atualizarTabela().then(() => inicializarResultadosSchedule({
-      urlPlanilhaQuali: "https://docs.google.com/spreadsheets/d/1R1JcLto9Eowp3VG-SWhJIve4Q9ikWV3ani4eWzOhRoc/edit?usp=sharing&gid=283528837#gid=283528837"
+      urlPlanilhaQuali: "https://docs.google.com/spreadsheets/d/1R1JcLto9Eowp3VG-SWhJIve4Q9ikWV3ani4eWzOhRoc/edit?usp=sharing&gid=283528837#gid=283528837"//TABELA RESULTADO 2025
     })).catch(err => console.error("❌ Erro ao atualizar cronograma:", err));
     setInterval(atualizarTabela, 30000)
 
