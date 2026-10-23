@@ -577,3 +577,28 @@ footer {
   content: " ✓";
   font-weight: 800;
 }
+
+.pit-resumo-grid {
+  background: white;
+  border-radius: 14px;
+  box-shadow: var(--sombra);
+  display: grid;
+  gap: 1px;
+  margin-top: 28px;
+  overflow: hidden;
+}
+
+.pit-resumo-item {
+  background: #f8fbff;
+  display: grid;
+  gap: 8px;
+  grid-template-columns: minmax(190px, .8fr) 1.5fr;
+  padding: 16px 20px;
+}
+
+.pit-resumo-item strong { color: var(--azul-escuro); }
+.pit-resumo-item span { color: var(--texto); white-space: pre-wrap; }
+
+@media (max-width: 600px) {
+  .pit-resumo-item { grid-template-columns: 1fr; }
+}
