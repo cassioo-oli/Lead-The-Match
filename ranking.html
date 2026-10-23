@@ -1,22 +1,35 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lead The Match | Torneio de Robótica de Gravataí</title>
-    <link rel="stylesheet" href="stylesheet.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ranking | Lead The Match</title>
+  <link rel="stylesheet" href="stylesheet.css">
+  <link rel="stylesheet" href="rankingPainel.css">
+  <script type="module" src="rankingPainel.js"></script>
 </head>
 <body>
-    <nav>
-        <ul class="menu">
-            <li><a href="index.html">Início</a></li>
-            <li><a href="listaPartidas.html">Lista de Partidas</a></li>
-            <li><a href="ranking.html">Ranking</a></li>
-            <li><a href="scout.html">Scouting</a></li>
-            <li><a href="pitScout.html">Pit Scouting</a></li>
-            <li><a href="estatisticas.html">Estatísticas</a></li>
-        </ul>
-    </nav>
-
+  <nav><div class="nav-content">
+    <a class="logo" href="index.html">LEAD <span>THE MATCH</span></a>
+    <ul class="menu">
+      <li><a href="index.html">Início</a></li><li><a href="listaPartidas.html">Lista de Partidas</a></li><li><a class="ativo" href="ranking.html">Ranking</a></li><li><a href="scout.html">Scouting</a></li><li><a href="pitScout.html">Pit Scouting</a></li><li><a href="estatisticas.html">Estatísticas</a></li>
+    </ul>
+  </div></nav>
+  <main class="ranking-page">
+    <section class="ranking-hero"><div class="container">
+      <p class="ranking-eyebrow">LEAD THE MATCH • CLASSIFICAÇÃO</p>
+      <h1>Ranking Geral</h1>
+      <p>Classificação atualizada a partir dos resultados registrados no torneio.</p>
+    </div></section>
+    <section class="container ranking-content">
+      <p id="rankingStatus" class="ranking-status" aria-live="polite">Carregando ranking...</p>
+      <div class="ranking-table-wrap"><table class="ranking-table">
+        <thead><tr><th>Pos.</th><th>Equipe</th><th>Média de pontos</th><th>Média individual</th><th>Média cooperação</th></tr></thead>
+        <tbody id="rankingBody"></tbody>
+      </table></div>
+      <p class="ranking-note"><strong>Como funciona:</strong> a ordem considera a média de pontos, depois a média individual e por fim a média de cooperação. As oito primeiras equipes ficam destacadas.</p>
+    </section>
+  </main>
+  <footer>Lead The Match • Torneio de Robótica de Gravataí</footer>
 </body>
 </html>
