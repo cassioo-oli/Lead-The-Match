@@ -20,7 +20,31 @@ const PIT_SCOUTING_CONFIG = {
 const pitForm = document.getElementById("pitForm");
 const statusMsg = document.getElementById("statusMsg");
 
-const CHAVE_EQUIPES_CONCLUIDAS = "leadTheMatchPitScoutConcluido";
+const CHAVE_EQUIPES_CONCLUIDAS = "leadTheMatchPitScoutConcluidoV2";
+const CHAVE_DADOS_PIT = "leadTheMatchPitScoutDadosV2";
+const CHAVE_LIMPEZA_TESTES = "leadTheMatchPitScoutTestesLimposV1";
+const CAMPOS_RESUMO = [
+  ["dimensoesRobos", "Dimensões do robô"],
+  ["qntdMaxPilares", "Pilares que consegue carregar"],
+  ["passagemEmbaixoFluxo", "Passa embaixo do Fluxo"],
+  ["ladosColeta", "Lados de coleta"],
+  ["estilosColeta", "Mecanismo de coleta"],
+  ["niveisPontuacao", "Níveis de pontuação"],
+  ["escaladaAoFinal", "Consegue se pendurar no Fluxo"],
+  ["equipamentoRobo", "Materiais usados"],
+  ["qntdMotoresSensores", "Motores e sensores"],
+  ["modoOperacional", "Modo de jogo"],
+  ["linguagemProgramacao", "Programa ou linguagem"]
+];
+
+// Remove somente as marcações e resumos de teste que ficaram neste navegador.
+// As respostas já enviadas ao Google Forms não são apagadas.
+function limparDadosDeTesteAntigos() {
+  if (localStorage.getItem(CHAVE_LIMPEZA_TESTES)) return;
+  localStorage.removeItem("leadTheMatchPitScoutConcluido");
+  localStorage.removeItem("leadTheMatchPitScoutDados");
+  localStorage.setItem(CHAVE_LIMPEZA_TESTES, "sim");
+}
 
 // Lê as equipes já concluídas no navegador.
 function lerEquipesConcluidas() {
@@ -45,6 +69,37 @@ function salvarEquipeConcluida(nomeEquipe) {
       JSON.stringify(equipes)
     );
   }
+}
+
+function lerDadosPit() {
+  try { return JSON.parse(localStorage.getItem(CHAVE_DADOS_PIT) || "{}"); }
+  catch (erro) { return {}; }
+}
+
+function salvarDadosPit(nomeEquipe, dados) {
+  const dadosPorEquipe = lerDadosPit();
+  dadosPorEquipe[nomeEquipe] = dados;
+  localStorage.setItem(CHAVE_DADOS_PIT, JSON.stringify(dadosPorEquipe));
+}
+
+function escaparHtml(valor) {
+  const elemento = document.createElement("span");
+  elemento.textContent = valor || "Não informado";
+  return elemento.innerHTML;
+}
+
+function mostrarResumoPit(nomeEquipe) {
+  const dados = lerDadosPit()[nomeEquipe];
+  if (!dados) return;
+  document.getElementById("tituloResumoPit").textContent = "Informações: " + nomeEquipe;
+  document.getElementById("dadosResumoPit").innerHTML = CAMPOS_RESUMO.map(([campo, titulo]) =>
+    '<article class="pit-resumo-item"><strong>' + titulo + '</strong><span>' + escaparHtml(dados[campo]) + '</span></article>'
+  ).join("");
+  document.getElementById("selecao-equipe").classList.add("escondido");
+  document.getElementById("formulario-pit").classList.add("escondido");
+  document.getElementById("dados-enviados").classList.add("escondido");
+  document.getElementById("resumo-pit").classList.remove("escondido");
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 // Pinta um botão específico de azul.
@@ -106,6 +161,7 @@ pitForm.addEventListener("submit", async function (evento) {
 
     // Salva e pinta a equipe somente após a tentativa de envio.
     salvarEquipeConcluida(dados.selecaoEquipe);
+    salvarDadosPit(dados.selecaoEquipe, dados);
     pintarEquipeComoConcluida(dados.selecaoEquipe);
 
     document.getElementById("nomeEquipeEnviada").textContent =
@@ -126,4 +182,20 @@ pitForm.addEventListener("submit", async function (evento) {
 });
 
 // Executa assim que o JavaScript carregar.
+limparDadosDeTesteAntigos();
 carregarMarcacoesDasEquipes();
+
+// Ao abrir uma equipe já concluída, mostra um resumo das informações,
+// sem reabrir o formulário de perguntas.
+document.getElementById("listaEquipes").addEventListener("click", (evento) => {
+  const botao = evento.target.closest(".pit-equipe");
+  if (!botao || !lerDadosPit()[botao.dataset.equipe]) return;
+  evento.stopImmediatePropagation();
+  mostrarResumoPit(botao.dataset.equipe);
+}, true);
+
+document.getElementById("voltarDoResumo").addEventListener("click", () => {
+  document.getElementById("resumo-pit").classList.add("escondido");
+  document.getElementById("selecao-equipe").classList.remove("escondido");
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
