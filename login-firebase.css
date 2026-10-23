@@ -1,0 +1,14 @@
+.login-card input[type="email"] {
+  background: #f8fbff;
+  border: 1px solid #c6d9eb;
+  border-radius: 8px;
+  color: var(--texto);
+  font: inherit;
+  padding: 13px;
+  width: 100%;
+}
+
+.login-submit:disabled {
+  cursor: wait;
+  opacity: .7;
+}
