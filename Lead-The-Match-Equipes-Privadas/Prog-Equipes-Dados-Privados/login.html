@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Acessar | Lead The Match</title>
+  <link rel="stylesheet" href="stylesheet.css">
+  <link rel="stylesheet" href="login.css">
+  <link rel="stylesheet" href="login-firebase.css">
+  <script type="module" src="login.js"></script>
+</head>
+<body class="login-page">
+  <main class="login-layout">
+    <section class="login-brand"><div class="login-brand-content">
+      <a class="logo login-logo" href="index.html">LEAD <span>THE MATCH</span></a>
+      <p class="login-eyebrow">TORNEIO DE ROBÓTICA DE GRAVATAÍ</p>
+      <h1>Estratégia começa com informação.</h1>
+      <p>Entre para registrar, acompanhar e analisar os dados da sua equipe durante o torneio.</p>
+      <div class="login-images"><img src="imagens/photo_5167897374779706538_y.jpg" alt="Logo do Lead The Match"><img src="imagens/photo_5066940620840479925_c.jpg" alt="Logo da equipe organizadora"></div>
+    </div></section>
+    <section class="login-panel">
+      <form id="loginForm" class="login-card">
+        <p class="etiqueta azul">ACESSO DA EQUIPE</p>
+        <h2>Entrar no Lead The Match</h2>
+        <p class="login-help">Use o e-mail e a senha cadastrados para a sua equipe.</p>
+        <label for="usuarioLogin">E-mail</label>
+        <input id="usuarioLogin" name="email" type="email" autocomplete="username" placeholder="equipe@exemplo.com" required>
+        <label for="senhaLogin">Senha</label>
+        <input id="senhaLogin" name="senha" type="password" autocomplete="current-password" placeholder="Digite sua senha" required>
+        <label class="remember-option"><input id="manterLogado" type="checkbox" name="manterLogado"><span>Manter conectado neste dispositivo</span></label>
+        <p id="loginStatus" class="login-status" aria-live="polite"></p>
+        <button class="login-submit" type="submit">Acessar Lead The Match</button>
+      </form>
+    </section>
+  </main>
+</body>
+</html>

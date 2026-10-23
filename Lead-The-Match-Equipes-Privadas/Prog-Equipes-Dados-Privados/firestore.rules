@@ -1,0 +1,21 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Cada conta só pode acessar as próprias coleções de Scouting e Pit Scout.
+    match /users/{userId}/scouting/{recordId} {
+      allow read, create, update, delete: if request.auth != null
+        && request.auth.uid == userId;
+    }
+
+    match /users/{userId}/pitScout/{recordId} {
+      allow read, create, update, delete: if request.auth != null
+        && request.auth.uid == userId;
+    }
+
+    // Nenhum outro caminho fica aberto por padrão.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

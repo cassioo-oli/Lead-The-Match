@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Estatísticas | Lead The Match</title>
+  <link rel="stylesheet" href="stylesheet.css">
+  <link rel="stylesheet" href="estatisticas.css">
+  <script type="module" src="auth-guard.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <script type="module" src="estatisticas.js"></script>
+</head>
+<body>
+  <nav><div class="nav-content">
+    <a class="logo" href="index.html">LEAD <span>THE MATCH</span></a>
+    <ul class="menu">
+      <li><a href="index.html">Início</a></li><li><a href="listaPartidas.html">Lista de Partidas</a></li><li><a href="ranking.html">Ranking</a></li><li><a href="scout.html">Scouting</a></li><li><a href="pitScout.html">Pit Scouting</a></li><li><a class="ativo" href="estatisticas.html">Estatísticas</a></li>
+    </ul>
+  </div></nav>
+  <main class="stats-page">
+    <section class="stats-hero"><div class="container">
+      <p class="stats-eyebrow">LEAD THE MATCH • DADOS DO TORNEIO</p>
+      <h1>Estatísticas das equipes</h1>
+      <p>Compare o desempenho nas partidas com as informações técnicas do Pit Scouting.</p>
+    </div></section>
+    <section class="container stats-content">
+      <div class="stats-filter-card">
+        <div><p class="etiqueta azul">PAINEL DA EQUIPE</p><h2>Escolha uma equipe</h2><p>Os gráficos são atualizados usando os dados registrados no Scouting e no Pit Scouting.</p></div>
+        <label class="stats-select-label" for="filtroEquipe">Equipe analisada
+          <select id="filtroEquipe" disabled><option value="">Carregando equipes...</option></select>
+        </label>
+      </div>
+      <p id="statusDados" class="stats-status" aria-live="polite">Carregando os dados desta conta...</p>
+      <section class="stats-summary" aria-label="Resumo da equipe">
+        <article class="summary-card"><span>Partidas observadas</span><strong id="totalPartidas">—</strong><small>registros de Scouting</small></article>
+        <article class="summary-card"><span>Nota geral média</span><strong id="mediaNota">—</strong><small>escala de 1 a 5</small></article>
+        <article class="summary-card"><span>Maior estimativa</span><strong id="maiorPontuacao">—</strong><small>pontuação observada</small></article>
+        <article class="summary-card"><span>Pit Scouting</span><strong id="statusPit">—</strong><small>perfil técnico do robô</small></article>
+      </section>
+      <section class="stats-grid">
+        <article class="stats-chart-card stats-chart-wide">
+          <div class="chart-title"><div><p class="etiqueta azul">VISÃO DO TORNEIO</p><h2>Nota média por equipe</h2></div><p>Equipes que já possuem avaliações salvas.</p></div>
+          <div class="chart-box"><canvas id="graficoRankingNotas"></canvas><p class="chart-empty" id="vazioRanking" hidden>Ainda não há notas gerais suficientes para montar este gráfico.</p></div>
+        </article>
+        <article class="stats-chart-card">
+          <div class="chart-title"><div><p class="etiqueta azul">SCOUTING</p><h2>Desempenho do robô</h2></div><p>Média dos critérios observados.</p></div>
+          <div class="chart-box"><canvas id="graficoDesempenho"></canvas><p class="chart-empty" id="vazioDesempenho" hidden>Selecione uma equipe com Scouts registrados.</p></div>
+        </article>
+        <article class="stats-chart-card">
+          <div class="chart-title"><div><p class="etiqueta azul">SCOUTING</p><h2>Situação nas partidas</h2></div><p>Quantidade de registros por situação.</p></div>
+          <div class="chart-box"><canvas id="graficoSituacao"></canvas><p class="chart-empty" id="vazioSituacao" hidden>Selecione uma equipe com Scouts registrados.</p></div>
+        </article>
+      </section>
+      <section class="pit-profile">
+        <div class="pit-profile-heading"><p class="etiqueta azul">PIT SCOUTING</p><h2>Perfil técnico do robô</h2><p>Informações preenchidas na entrevista da equipe.</p></div>
+        <div id="perfilPit" class="pit-profile-grid"><p class="pit-empty">Escolha uma equipe para ver o perfil técnico.</p></div>
+      </section>
+      <section class="stats-help"><h2>Como os dados chegam aqui?</h2><p>Esta página mostra apenas os Scouts e Pit Scouts salvos pela conta conectada. Cronograma e ranking continuam compartilhados entre as equipes.</p></section>
+    </section>
+  </main>
+  <footer>Lead The Match • Torneio de Robótica de Gravataí</footer>
+</body>
+</html>
