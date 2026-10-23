@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scouting | Lead The Match</title>
+  <link rel="stylesheet" href="stylesheet.css">
+  <script type="module" src="auth-guard.js"></script>
+  <style>
+    :root { --scout-azul-escuro:#062f62; --scout-azul:#0866c6; --scout-fundo:#f6f9fc; --scout-texto:#17324d; --scout-cinza:#62758a; --scout-amarelo:#ffd84d; }
+    .scout-page { background:var(--scout-fundo); min-height:100vh; }
+    .scout-container { width:min(1120px, calc(100% - 40px)); margin:auto; }
+    .scout-hero { background:linear-gradient(120deg,var(--scout-azul-escuro),var(--scout-azul)); color:#fff; padding:58px 0 54px; }
+    .scout-eyebrow { color:var(--scout-amarelo); font-size:.75rem; font-weight:800; letter-spacing:1.4px; margin:0 0 9px; }
+    .scout-hero h1 { color:#fff; font-size:clamp(2.3rem,5vw,3.7rem); line-height:1.05; margin:0 0 13px; }
+    .scout-hero p:last-child { color:#dcecff; font-size:1.08rem; max-width:670px; margin:0; }
+    .scout-workspace { padding:46px 0 70px; }
+    .scout-step { color:var(--scout-azul); font-size:.76rem; font-weight:800; letter-spacing:1.3px; margin:0 0 8px; }
+    .scout-title { color:var(--scout-azul-escuro); font-size:clamp(1.7rem,3vw,2.35rem); line-height:1.15; margin:0 0 10px; }
+    .scout-description { color:var(--scout-cinza); margin:0 0 27px; }
+    .scout-layout { display:grid; gap:24px; grid-template-columns:minmax(260px,350px) 1fr; align-items:start; }
+    .scout-card { background:#fff; border-radius:14px; box-shadow:0 12px 30px rgba(8,57,111,.12); padding:25px; }
+    .scout-card h2 { color:var(--scout-azul-escuro); font-size:1.15rem; margin:0 0 18px; }
+    .scout-field-group { display:flex; flex-direction:column; gap:8px; margin-bottom:18px; }
+    .scout-field-group label { color:var(--scout-texto); font-size:.9rem; font-weight:700; }
+    .scout-field-group select { background:#f8fbff; border:1px solid #c9d9e8; border-radius:7px; color:var(--scout-texto); font:inherit; padding:12px; width:100%; }
+    .scout-field-group select:focus { border-color:var(--scout-azul); outline:3px solid rgba(8,102,198,.14); }
+    .scout-hint { background:#eaf4ff; border-left:4px solid var(--scout-azul); border-radius:6px; color:#315a85; font-size:.88rem; line-height:1.5; margin:22px 0 0; padding:13px; }
+    .scout-status { color:var(--scout-azul-escuro); font-size:.9rem; font-weight:700; margin:17px 0 0; min-height:24px; }
+    .field-toolbar { align-items:center; display:flex; flex-wrap:wrap; gap:12px; justify-content:space-between; margin:0 0 17px; }
+    .field-toolbar p { color:var(--scout-cinza); font-size:.9rem; margin:0; }
+    .invert-button,.continue-button { border:0; border-radius:7px; cursor:pointer; font:inherit; font-weight:800; padding:11px 16px; transition:transform .2s,background .2s; }
+    .invert-button { background:#eaf4ff; color:var(--scout-azul-escuro); }
+    .invert-button:hover,.continue-button:hover { transform:translateY(-2px); }
+    .continue-button { background:var(--scout-azul); color:#fff; margin-top:19px; width:100%; }
+    .field-map { aspect-ratio:1.65 / 1; background:#7b858b; border:7px solid #26343b; border-radius:9px; box-shadow:inset 0 0 0 2px rgba(255,255,255,.15); cursor:crosshair; overflow:hidden; position:relative; touch-action:none; user-select:none; width:100%; }
+    .field-art { height:100%; inset:0; position:absolute; transition:transform .45s ease; width:100%; }
+    .field-map.inverted .field-art { transform:rotate(180deg); }
+    .live-field-map { aspect-ratio: 231 / 240; margin: auto; max-width: 520px; }
+    .live-field-map .field-art { display: none; }
+    .field-image { height: 100%; inset: 0; object-fit: fill; pointer-events: none; position: absolute; transition: transform .45s ease; width: 100%; }
+    .field-map.inverted .field-image { transform: rotate(180deg); }
+    .field-grid { background-image:linear-gradient(rgba(20,30,34,.78) 2px,transparent 2px),linear-gradient(90deg,rgba(20,30,34,.78) 2px,transparent 2px); background-size:12.5% 25%,12.5% 25%; height:100%; width:100%; }
+    .field-center-line { background:rgba(20,30,34,.85); height:2px; left:0; position:absolute; top:50%; width:100%; }
+    .field-target { border:3px solid #1d2b30; border-radius:50%; height:18px; position:absolute; width:18px; }
+    .field-target::after { background:#d6d9d6; border:2px solid #1d2b30; border-radius:50%; content:''; height:6px; left:3px; position:absolute; top:3px; width:6px; }
+    .target-one { left:12%; top:9%; } .target-two { left:12%; top:80%; } .target-three { left:48%; top:46%; }
+    .field-green-zone { background:#10b617; border:2px solid #124817; border-radius:0 50% 50% 0; height:54%; left:-8%; position:absolute; top:23%; width:30%; }
+    .field-pillar { background:#c7a800; border:2px solid #635c00; border-radius:3px; box-shadow:6px 0 0 #c7a800,6px 0 0 2px #635c00,0 6px 0 #c7a800,0 6px 0 2px #635c00,6px 6px 0 #c7a800,6px 6px 0 2px #635c00; height:8px; position:absolute; width:8px; }
+    .pillar-top { left:49%; top:17%; } .pillar-bottom { left:49%; top:73%; }
+    .field-wall { background:#17252b; border:2px solid #0c1518; display:grid; gap:7px; padding:7px 4px; position:absolute; right:0; top:36%; }
+    .field-wall span { background:#15b438; border:1px solid #0c5420; border-radius:2px; height:7px; width:11px; }
+    .robot-marker { align-items:center; background:#fff; border:4px solid var(--scout-azul); border-radius:50%; box-shadow:0 0 0 4px rgba(255,255,255,.55),0 6px 15px rgba(0,0,0,.35); display:none; height:30px; justify-content:center; left:50%; pointer-events:none; position:absolute; top:50%; transform:translate(-50%,-50%); transition:left .2s,top .2s; width:30px; z-index:3; }
+    .robot-marker.visible { display:flex; } .robot-marker::before { color:var(--scout-azul-escuro); content:'R'; font-size:.72rem; font-weight:900; }
+    .field-caption { color:var(--scout-cinza); font-size:.82rem; margin:12px 0 0; text-align:center; }
+    @media (max-width:820px) { .scout-layout { grid-template-columns:1fr; } }
+    @media (max-width:560px) { .scout-container { width:min(100% - 28px,1120px); } .scout-hero { padding:45px 0; } .scout-workspace { padding-top:34px; } .scout-card { padding:19px; } .field-toolbar { align-items:stretch; flex-direction:column; } .invert-button { width:100%; } }
+
+    /* A posição inicial continua pronta no código, mas esta etapa ficará para depois. */
+    .scout-workspace { display: none; }
+    .live-scout { padding: 46px 0 72px; }
+    .live-scout-form { display: grid; gap: 22px; }
+    .live-grid { display: grid; gap: 22px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .live-card { background: #fff; border-radius: 14px; box-shadow: 0 12px 30px rgba(8, 57, 111, .12); padding: 25px; }
+    .live-card.full { grid-column: 1 / -1; }
+    .live-card h3 { color: var(--scout-azul-escuro); font-size: 1.12rem; margin: 0 0 6px; }
+    .live-card > p { color: var(--scout-cinza); font-size: .88rem; margin: 0 0 18px; }
+    .scout-selects { display: grid; gap: 16px; grid-template-columns: repeat(2, 1fr); }
+    .selected-match { background: #eaf4ff; border: 1px solid #cbdff1; border-radius: 9px; color: var(--scout-azul-escuro); font-size: .95rem; font-weight: 800; margin: 0 0 20px; padding: 13px 15px; }
+    .team-selection-label { color: var(--scout-texto); display: block; font-size: .92rem; font-weight: 800; margin: 0 0 10px; }
+    .team-choice-buttons { display: flex; flex-wrap: wrap; gap: 12px; }
+    .team-choice-buttons input { opacity: 0; position: absolute; pointer-events: none; }
+    .team-choice { background: #f4f8fc; border: 2px solid #c9ddec; border-radius: 999px; color: var(--scout-azul-escuro); cursor: pointer; font-size: .94rem; font-weight: 800; padding: 12px 18px; transition: .18s; }
+    .team-choice:hover { border-color: var(--scout-azul); transform: translateY(-2px); }
+    .team-choice-buttons input:checked + .team-choice { background: var(--scout-azul); border-color: var(--scout-azul); box-shadow: 0 5px 12px rgba(8,102,198,.22); color: #fff; }
+    .match-warning { color: #9b4538; font-size: .9rem; font-weight: 700; margin: 0; }
+    .choice-group { border: 0; margin: 0 0 19px; padding: 0; }
+    .choice-group:last-child { margin-bottom: 0; }
+    .choice-group legend { color: var(--scout-texto); font-size: .92rem; font-weight: 800; margin-bottom: 9px; }
+    .choice-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .choice-options input { opacity: 0; position: absolute; pointer-events: none; }
+    .choice-options label { background: #f4f8fc; border: 1px solid #d4e1ec; border-radius: 999px; color: #31516f; cursor: pointer; font-size: .84rem; font-weight: 700; padding: 9px 12px; transition: .18s; }
+    .choice-options input:checked + label { background: var(--scout-azul); border-color: var(--scout-azul); color: #fff; box-shadow: 0 4px 10px rgba(8, 102, 198, .22); }
+    .scout-notes { background: #f8fbff; border: 1px solid #c9d9e8; border-radius: 8px; color: var(--scout-texto); font: inherit; min-height: 112px; padding: 12px; resize: vertical; width: 100%; }
+    .scout-submit-row { align-items: center; display: flex; gap: 16px; justify-content: space-between; }
+    .scout-submit-status { color: var(--scout-cinza); font-size: .9rem; margin: 0; }
+    .scout-save { background: var(--scout-azul); border: 0; border-radius: 7px; color: #fff; cursor: pointer; font: inherit; font-weight: 800; padding: 13px 20px; }
+    @media (max-width: 720px) { .live-grid { grid-template-columns: 1fr; } .live-card.full { grid-column: auto; } .scout-selects { grid-template-columns: 1fr; } .scout-submit-row { align-items: stretch; flex-direction: column; } }
+  </style>
+</head>
+<body class="scout-page">
+  <nav>
+    <div class="nav-content">
+      <a class="logo" href="index.html">LEAD <span>THE MATCH</span></a>
+      <ul class="menu">
+        <li><a href="index.html">Início</a></li><li><a href="listaPartidas.html">Lista de Partidas</a></li><li><a href="ranking.html">Ranking</a></li><li><a class="ativo" href="scout.html">Scouting</a></li><li><a href="pitScout.html">Pit Scouting</a></li><li><a href="estatisticas.html">Estatísticas</a></li>
+      </ul>
+    </div>
+  </nav>
+  <main>
+    <section class="scout-hero"><div class="scout-container"><p class="scout-eyebrow">LEAD THE MATCH • SCOUTING</p><h1>Avalie o robô durante a partida</h1><p>Registre decisões, desempenho e acontecimentos importantes para orientar a estratégia da equipe.</p></div></section>
+    <section class="scout-container scout-workspace">
+      <p class="scout-step">ETAPA 1 DE 2</p><h2 class="scout-title">Posição inicial na quadra</h2><p class="scout-description">Toque ou clique na região em que o robô que será avaliado começa a partida.</p>
+      <div class="scout-layout">
+        <aside class="scout-card"><h2>Identificação do Scout</h2>
+          <div class="scout-field-group"><label for="partida">Partida</label><select id="partida" name="partida"><option value="">Selecione a partida</option><option value="1">Partida 1</option><option value="2">Partida 2</option><option value="3">Partida 3</option></select></div>
+          <div class="scout-field-group"><label for="equipeAvaliada">Equipe que será avaliada</label><select id="equipeAvaliada" name="equipeAvaliada"><option value="">Selecione uma equipe</option><option>Tech Hunters</option><option>The Phoenix</option><option>Pasqual Maker I</option><option>Pasqual Maker II</option><option>Eletro Tech</option><option>Tech Wizard</option><option>Robotchê</option><option>Velozes e Robóticos</option><option>Robotclub</option><option>Jaguars</option><option>Humanóides</option><option>Void</option><option>Rooster</option><option>PF Tech</option><option>Red Code</option><option>Spark</option><option>Irapuã Tech</option><option>Alcatech</option><option>Freire Tech</option><option>Kuaray Rete</option><option>Hexabits</option><option>Tecno Spider</option><option>Aurora</option><option>Lego Monsters</option><option>Robotics Maker</option><option>Robotic Dragons</option><option>Tech Pantera</option><option>Blaze Fox</option><option>Meca Taygers</option><option>Lady Bots</option><option>Eletrosceno</option><option>Damatronic</option><option>Coalabots</option><option>Guardiões Botz</option><option>Curiosity</option><option>Megarobert</option><option>Só Gambiarras</option><option>Hakeabots</option><option>Duque Maker</option><option>Tecnoibots</option><option>Brenotech</option><option>Mini-Cientistas do Kuaray</option><option>Metal Bots</option><option>Byte Force</option></select></div>
+          <div class="scout-hint"><strong>Como usar:</strong> marque o lugar inicial do robô. Se a equipe estiver no lado oposto, use “Inverter quadra” antes de marcar.</div>
+          <p id="posicaoStatus" class="scout-status">Nenhuma posição marcada.</p><button id="continuarScout" class="continue-button" type="button">Salvar posição e continuar</button>
+        </aside>
+        <section class="scout-card" aria-label="Mapa interativo da quadra"><div class="field-toolbar"><p><strong>Mapa da quadra</strong><br>Toque para posicionar o robô.</p><button id="inverterQuadra" class="invert-button" type="button">↻ Inverter quadra</button></div>
+          <div id="fieldMap" class="field-map" role="application" aria-label="Quadra interativa. Clique para marcar a posição inicial do robô."><div class="field-art" aria-hidden="true"><div class="field-grid"></div><div class="field-center-line"></div><div class="field-green-zone"></div><div class="field-target target-one"></div><div class="field-target target-two"></div><div class="field-target target-three"></div><div class="field-pillar pillar-top"></div><div class="field-pillar pillar-bottom"></div><div class="field-wall"><span></span><span></span><span></span><span></span><span></span><span></span></div></div><div id="robotMarker" class="robot-marker" aria-label="Posição inicial marcada"></div></div>
+          <p class="field-caption">O marcador azul representa o robô observado.</p>
+        </section>
+      </div>
+    </section>
+
+    <section class="scout-container live-scout" id="etapaAvaliacao">
+      <p class="scout-step">SCOUTING AO VIVO</p>
+      <h2 class="scout-title">Registro da partida</h2>
+      <p class="scout-description">Marque a posição inicial e registre tudo o que aconteceu com o robô observado em uma única tela.</p>
+
+      <form id="liveScoutForm" class="live-scout-form">
+        <section class="live-card full">
+          <h3>Identificação da observação</h3>
+          <p id="partidaInfo">A partida selecionada no Ranking será carregada aqui.</p>
+          <input type="hidden" id="scoutPartida" name="numeroJogo">
+          <div id="equipesDaPartida" class="team-choice-buttons" aria-live="polite"></div>
+        </section>
+
+        <section class="live-card full" aria-label="Posição inicial do robô">
+          <div class="field-toolbar">
+            <div><h3>Posição inicial na quadra</h3><p>Toque ou clique na região em que o robô começa a partida.</p></div>
+            <button id="liveInverterQuadra" class="invert-button" type="button">↻ Inverter quadra</button>
+          </div>
+          <div id="liveFieldMap" class="field-map live-field-map" role="application" aria-label="Quadra interativa. Clique para marcar a posição inicial do robô.">
+            <img class="field-image" src="imagens/quadra-scout.png" alt="Mapa da quadra do torneio">
+            <div class="field-art" aria-hidden="true"><div class="field-grid"></div><div class="field-center-line"></div><div class="field-green-zone"></div><div class="field-target target-one"></div><div class="field-target target-two"></div><div class="field-target target-three"></div><div class="field-pillar pillar-top"></div><div class="field-pillar pillar-bottom"></div><div class="field-wall"><span></span><span></span><span></span><span></span><span></span><span></span></div></div>
+            <div id="liveRobotMarker" class="robot-marker" aria-label="Posição inicial marcada"></div>
+          </div>
+          <p id="livePositionStatus" class="field-caption">Nenhuma posição marcada.</p>
+        </section>
+
+        <div class="live-grid">
+          <section class="live-card">
+            <h3>Início e modo de jogo</h3><p>Primeiras informações observadas na partida.</p>
+            <fieldset class="choice-group"><legend>Status do robô</legend><div class="choice-options"><input id="status-apareceu" type="radio" name="statusRobo" value="apareceu"><label for="status-apareceu">Apareceu</label><input id="status-desabilitado" type="radio" name="statusRobo" value="desabilitado"><label for="status-desabilitado">Desabilitado</label><input id="status-parado" type="radio" name="statusRobo" value="parado"><label for="status-parado">Parado</label><input id="status-auto" type="radio" name="statusRobo" value="problema_autonomo"><label for="status-auto">Problema no autônomo</label></div></fieldset>
+            <fieldset class="choice-group"><legend>Tipo de jogo observado</legend><div class="choice-options"><input id="modo-auto" type="radio" name="modoOperacao" value="autonomo"><label for="modo-auto">Autônomo</label><input id="modo-teleop" type="radio" name="modoOperacao" value="teleop"><label for="modo-teleop">Teleop</label><input id="modo-ambos" type="radio" name="modoOperacao" value="ambos"><label for="modo-ambos">Ambos</label></div></fieldset>
+            <fieldset class="choice-group"><legend>Comportamento no autônomo</legend><div class="choice-options"><input id="auto-suave" type="radio" name="comportamentoAuto" value="suave_alinhado"><label for="auto-suave">Suave e alinhado</label><input id="auto-erro" type="radio" name="comportamentoAuto" value="erro_trajetoria"><label for="auto-erro">Erro de trajetória</label><input id="auto-nao" type="radio" name="comportamentoAuto" value="nao_moveu"><label for="auto-nao">Não se moveu</label></div></fieldset>
+          </section>
+
+          <section class="live-card">
+            <h3>Coleta e pontuação</h3><p>Observe como o robô busca e encaixa os Pilares.</p>
+            <fieldset class="choice-group"><legend>Eficiência de coleta</legend><div class="choice-options"><input id="coleta-rapida" type="radio" name="eficienciaColeta" value="captura_veloz"><label for="coleta-rapida">Rápida</label><input id="coleta-lenta" type="radio" name="eficienciaColeta" value="captura_lenta"><label for="coleta-lenta">Lenta</label><input id="coleta-falhas" type="radio" name="eficienciaColeta" value="captura_com_falhas"><label for="coleta-falhas">Com falhas</label></div></fieldset>
+            <fieldset class="choice-group"><legend>Origem principal da coleta</legend><div class="choice-options"><input id="origem-chao" type="radio" name="origemColeta" value="coletaPrincipal_chao"><label for="origem-chao">Chão</label><input id="origem-estacao" type="radio" name="origemColeta" value="coletaPrincipal_estation"><label for="origem-estacao">Estação</label><input id="origem-ambos" type="radio" name="origemColeta" value="coletaPrincipal_ambos"><label for="origem-ambos">Ambos</label></div></fieldset>
+            <fieldset class="choice-group"><legend>Qualidade do encaixe</legend><div class="choice-options"><input id="encaixe-preciso" type="radio" name="qualidadeEncaixe" value="encaixe_preciso"><label for="encaixe-preciso">Preciso</label><input id="encaixe-tentativas" type="radio" name="qualidadeEncaixe" value="encaixe_tentativas"><label for="encaixe-tentativas">Muitas tentativas</label><input id="encaixe-errado" type="radio" name="qualidadeEncaixe" value="encaixe_errado"><label for="encaixe-errado">Errou</label></div></fieldset>
+            <fieldset class="choice-group"><legend>Foco de pontuação</legend><div class="choice-options"><input id="foco-n1" type="radio" name="focoPontuacao" value="foco_n1"><label for="foco-n1">N1</label><input id="foco-n2" type="radio" name="focoPontuacao" value="foco_n2"><label for="foco-n2">N2</label><input id="foco-n3" type="radio" name="focoPontuacao" value="foco_n3"><label for="foco-n3">N3</label><input id="foco-chao" type="radio" name="focoPontuacao" value="foco_chao"><label for="foco-chao">Chão</label><input id="foco-indiferente" type="radio" name="focoPontuacao" value="foco_indiferente"><label for="foco-indiferente">Sem foco</label></div></fieldset>
+          </section>
+
+          <section class="live-card">
+            <h3>Estratégia e final</h3><p>Registre a resistência, a escalada e a cooperação.</p>
+            <fieldset class="choice-group"><legend>Resposta à defesa</legend><div class="choice-options"><input id="defesa-resistente" type="radio" name="defesa" value="defesa_resistente"><label for="defesa-resistente">Resistente</label><input id="defesa-bloqueado" type="radio" name="defesa" value="defesa_facilmente_bloqueado"><label for="defesa-bloqueado">Bloqueado facilmente</label><input id="defesa-evita" type="radio" name="defesa" value="defesa_evita_confronto"><label for="defesa-evita">Evita confronto</label></div></fieldset>
+            <fieldset class="choice-group"><legend>Escalada</legend><div class="choice-options"><input id="escala-rapida" type="radio" name="escalada" value="escalada_rapida"><label for="escala-rapida">Rápida</label><input id="escala-instavel" type="radio" name="escalada" value="escalada_instavel"><label for="escala-instavel">Instável</label><input id="escala-nao" type="radio" name="escalada" value="escalada_nao_tentou"><label for="escala-nao">Não tentou</label></div></fieldset>
+            <fieldset class="choice-group"><legend>Cooperação</legend><div class="choice-options"><input id="coop-sim" type="radio" name="cooperacao" value="tentou_coop_sim"><label for="coop-sim">Tentou cooperar</label><input id="coop-nao" type="radio" name="cooperacao" value="tentou_coop_nao"><label for="coop-nao">Não tentou</label></div></fieldset>
+            <fieldset class="choice-group"><legend>Penalidade observada</legend><div class="choice-options"><input id="pen-nenhum" type="radio" name="penalidade" value="penalidade_nenhum"><label for="pen-nenhum">Nenhuma</label><input id="pen-amarelo" type="radio" name="penalidade" value="penalidade_amarelo"><label for="pen-amarelo">Amarela</label><input id="pen-vermelho" type="radio" name="penalidade" value="penalidade_vermelho"><label for="pen-vermelho">Vermelha</label></div></fieldset>
+          </section>
+
+          <section class="live-card">
+            <h3>Avaliação final</h3><p>Uma leitura geral do robô para a estratégia da equipe.</p>
+            <fieldset class="choice-group"><legend>Nota geral</legend><div class="choice-options"><input id="nota-1" type="radio" name="notaGeral" value="1"><label for="nota-1">1</label><input id="nota-2" type="radio" name="notaGeral" value="2"><label for="nota-2">2</label><input id="nota-3" type="radio" name="notaGeral" value="3"><label for="nota-3">3</label><input id="nota-4" type="radio" name="notaGeral" value="4"><label for="nota-4">4</label><input id="nota-5" type="radio" name="notaGeral" value="5"><label for="nota-5">5</label></div></fieldset>
+            <fieldset class="choice-group"><legend>Pontuação estimada</legend><div class="choice-options"><input id="pts-baixa" type="radio" name="pontuacaoEstimada" value="baixa"><label for="pts-baixa">Baixa</label><input id="pts-media" type="radio" name="pontuacaoEstimada" value="media"><label for="pts-media">Média</label><input id="pts-alta" type="radio" name="pontuacaoEstimada" value="alta"><label for="pts-alta">Alta</label></div></fieldset>
+            <fieldset class="choice-group"><legend>Controle dos Pilares</legend><div class="choice-options"><input id="controle-bom" type="radio" name="controlePilares" value="controle_pilares_bom"><label for="controle-bom">Bom</label><input id="controle-mediano" type="radio" name="controlePilares" value="controle_pilares_mediano"><label for="controle-mediano">Mediano</label><input id="controle-ruim" type="radio" name="controlePilares" value="controle_pilares_ruim"><label for="controle-ruim">Ruim</label></div></fieldset>
+            <label for="observacoes" class="scout-field-group"><span>Observações, pontos fortes e fracos</span><textarea id="observacoes" class="scout-notes" name="observacoes" placeholder="Ex.: robô muito rápido no N2, mas perde Pilares durante a coleta."></textarea></label>
+          </section>
+        </div>
+
+        <section class="live-card full"><div class="scout-submit-row"><p id="liveScoutStatus" class="scout-submit-status">Preencha os itens observados durante a partida.</p><button type="submit" class="scout-save">Salvar Scout</button></div></section>
+      </form>
+    </section>
+  </main>
+  <script>
+    const mapaQuadra=document.getElementById('fieldMap'); const marcadorRobo=document.getElementById('robotMarker'); const botaoInverter=document.getElementById('inverterQuadra'); const textoStatus=document.getElementById('posicaoStatus'); const botaoContinuar=document.getElementById('continuarScout'); let posicao=null; let quadraInvertida=false;
+    function atualizarMarcador(){ if(!posicao)return; const x=quadraInvertida?100-posicao.x:posicao.x; const y=quadraInvertida?100-posicao.y:posicao.y; marcadorRobo.style.left=`${x}%`; marcadorRobo.style.top=`${y}%`; marcadorRobo.classList.add('visible'); textoStatus.textContent=`Posição marcada: ${Math.round(x)}% horizontal e ${Math.round(y)}% vertical.`; }
+    mapaQuadra.addEventListener('pointerdown',(evento)=>{const area=mapaQuadra.getBoundingClientRect();posicao={x:Math.max(0,Math.min(100,((evento.clientX-area.left)/area.width)*100)),y:Math.max(0,Math.min(100,((evento.clientY-area.top)/area.height)*100))};atualizarMarcador();});
+    botaoInverter.addEventListener('click',()=>{quadraInvertida=!quadraInvertida;mapaQuadra.classList.toggle('inverted',quadraInvertida);botaoInverter.textContent=quadraInvertida?'↺ Voltar posição original':'↻ Inverter quadra';atualizarMarcador();});
+    botaoContinuar.addEventListener('click',()=>{if(!document.getElementById('partida').value||!document.getElementById('equipeAvaliada').value){textoStatus.textContent='Selecione a partida e a equipe antes de continuar.';return;}if(!posicao){textoStatus.textContent='Marque a posição inicial do robô na quadra antes de continuar.';return;}textoStatus.textContent='Posição salva. A próxima etapa terá os campos de avaliação do robô.';});
+  </script>
+  <script>
+    const liveFieldMap = document.getElementById('liveFieldMap');
+    const liveRobotMarker = document.getElementById('liveRobotMarker');
+    const liveInvertButton = document.getElementById('liveInverterQuadra');
+    const livePositionStatus = document.getElementById('livePositionStatus');
+    let livePosition = null;
+    let liveFieldInverted = false;
+
+    function updateLiveMarker() {
+      if (!livePosition) return;
+      const x = liveFieldInverted ? 100 - livePosition.x : livePosition.x;
+      const y = liveFieldInverted ? 100 - livePosition.y : livePosition.y;
+      liveRobotMarker.style.left = `${x}%`;
+      liveRobotMarker.style.top = `${y}%`;
+      liveRobotMarker.classList.add('visible');
+      livePositionStatus.textContent = `Posição marcada: ${Math.round(x)}% horizontal e ${Math.round(y)}% vertical.`;
+    }
+
+    liveFieldMap.addEventListener('pointerdown', (event) => {
+      const area = liveFieldMap.getBoundingClientRect();
+      const xVisual = Math.max(0, Math.min(100, ((event.clientX - area.left) / area.width) * 100));
+      const yVisual = Math.max(0, Math.min(100, ((event.clientY - area.top) / area.height) * 100));
+      livePosition = liveFieldInverted
+        ? { x: 100 - xVisual, y: 100 - yVisual }
+        : { x: xVisual, y: yVisual };
+      updateLiveMarker();
+    });
+
+    liveInvertButton.addEventListener('click', () => {
+      liveFieldInverted = !liveFieldInverted;
+      liveFieldMap.classList.toggle('inverted', liveFieldInverted);
+      liveInvertButton.textContent = liveFieldInverted ? '↺ Voltar posição original' : '↻ Inverter quadra';
+      updateLiveMarker();
+    });
+
+    document.getElementById('liveScoutForm').addEventListener('submit', (event) => {
+      event.preventDefault();
+      if (!livePosition) {
+        document.getElementById('liveScoutStatus').textContent = 'Marque a posição inicial do robô na quadra antes de salvar.';
+        return;
+      }
+      document.getElementById('liveScoutStatus').textContent = 'Interface pronta. Na próxima etapa vamos ligar estas respostas e a posição ao Google Forms e à planilha.';
+    });
+  </script>
+  <script>
+    const parametrosDaPartida = new URLSearchParams(window.location.search);
+    const numeroDaPartida = parametrosDaPartida.get('partida');
+    const equipesDaPartida = [parametrosDaPartida.get('equipe1'), parametrosDaPartida.get('equipe2')].filter(Boolean);
+    const campoPartida = document.getElementById('scoutPartida');
+    const areaEquipes = document.getElementById('equipesDaPartida');
+    const partidaInfo = document.getElementById('partidaInfo');
+
+    if (numeroDaPartida && equipesDaPartida.length === 2) {
+      campoPartida.value = numeroDaPartida;
+      partidaInfo.innerHTML = '<strong>Partida ' + numeroDaPartida + '</strong> • escolha o robô que será observado.';
+      const legenda = document.createElement('p');
+      legenda.className = 'team-selection-label';
+      legenda.textContent = 'Equipe avaliada:';
+      areaEquipes.before(legenda);
+
+      equipesDaPartida.forEach((nomeEquipe, indice) => {
+        const radio = document.createElement('input');
+        radio.type = 'radio';
+        radio.name = 'equipeNumero';
+        radio.value = nomeEquipe;
+        radio.id = 'equipe-da-partida-' + indice;
+        radio.required = true;
+        const rotulo = document.createElement('label');
+        rotulo.className = 'team-choice';
+        rotulo.htmlFor = radio.id;
+        rotulo.textContent = nomeEquipe;
+        areaEquipes.append(radio, rotulo);
+      });
+    } else {
+      partidaInfo.textContent = 'Nenhuma partida foi recebida. Volte ao Ranking e selecione uma partida para iniciar o Scouting.';
+      partidaInfo.classList.add('match-warning');
+    }
+  </script>
+  <script src="scouting-envio.js"></script>
+</body>
+</html>

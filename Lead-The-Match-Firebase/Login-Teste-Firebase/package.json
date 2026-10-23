@@ -1,0 +1,10 @@
+{
+  "name": "cronograma-jogos-ranking",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Utilitários e teste do ranking do cronograma de jogos",
+  "scripts": {
+    "test": "node ranking.test.js"
+  }
+}
