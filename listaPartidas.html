@@ -6,59 +6,157 @@
     <title>Lead The Match | Torneio de Robótica de Gravataí</title>
     <link rel="stylesheet" href="stylesheet.css">
     <link rel="stylesheet" href="./schedule.css" />
+    <link rel="stylesheet" href="listaPartidas.css" />
+    <style>.legacy-schedule{display:none}</style>
 </head>
 <body>
     <nav>
+      <div class="nav-content">
+        <a class="logo" href="index.html">LEAD <span>THE MATCH</span></a>
+
         <ul class="menu">
-            <li><a href="index.html">Início</a></li>
-            <li><a href="listaPartidas.html">Lista de Partidas</a></li>
-            <li><a href="ranking.html">Ranking</a></li>
-            <li><a href="scout.html">Scouting</a></li>
-            <li><a href="pitScout.html">Pit Scouting</a></li>
-            <li><a href="estatisticas.html">Estatísticas</a></li>
+          <li><a href="index.html">Início</a></li>
+          <li><a class="ativo" href="listaPartidas.html">Lista de Partidas</a></li>
+          <li><a href="ranking.html">Ranking</a></li>
+          <li><a href="scout.html">Scouting</a></li>
+          <li><a href="pitScout.html">Pit Scouting</a></li>
+          <li><a href="estatisticas.html">Estatísticas</a></li>
         </ul>
+      </div>
     </nav>
 
-    <body>
+    
 
-  <div class="container">
-    <header class="app-header d-flex flex-column flex-lg-row align-items-lg-center gap-2">
+   <main class="ltm-schedule">
+     <section class="ltm-schedule-hero"><div class="container">
+       <p class="ltm-schedule-eyebrow">LEAD THE MATCH • CRONOGRAMA</p>
+       <h1>Lista de Partidas</h1>
+       <p>Acompanhe os confrontos do torneio e abra o Scouting da partida desejada.</p>
+     </div></section>
+     <section class="container ltm-schedule-content">
+       <div class="schedule-tools">
+         <input id="ltmBuscaPartida" class="schedule-search" type="search" placeholder="Pesquisar partida ou equipe">
+         <div class="schedule-filter"><button type="button" class="active" data-ltm-filtro="todos">Todos</button><button type="button" data-ltm-filtro="proximos">Próximos jogos</button></div>
+       </div>
+       <p id="ltmStatusPartidas" class="schedule-note" aria-live="polite">Carregando cronograma...</p>
+       <div class="schedule-table-wrap"><table class="ltm-schedule-table"><thead><tr><th>Nº</th><th>Dia</th><th>Horário</th><th>Equipes</th><th>Status</th><th>Scouting</th></tr></thead><tbody id="ltmTabelaPartidas"></tbody></table></div>
+     </section>
+   </main>
+
+   <!-- Código anterior preservado temporariamente como referência; não é exibido nem executado. -->
+   <div class="container legacy-schedule" aria-hidden="true">
+    <header class="app-header ltm-schedule-header">
       <div>
-        <div class="brand-title">Qualificatórias - Torneio de Robótica de Gravataí 2026</div>
-        <div class="subtitle">Horários estimados — sujeito a atrasos operacionais</div>
+        <p class="etiqueta azul">TORNEIO DE ROBÓTICA DE GRAVATAÍ 2026</p>
+        <div class="brand-title">Central de Partidas</div>
+        <div class="subtitle">Acompanhe o cronograma, o chaveamento e as alianças do torneio.</div>
       </div>
       <div id="ultima-atualizacao" class="last-updated ms-lg-auto"></div>
     </header>
-    <div class="toolbar">
-      <input type="text" id="pesquisa-time" class="form-control" placeholder="Pesquisar equipe" />
-      <div class="filter-group" role="group" aria-label="Filtros de status">
-        <button type="button" class="filter-btn active" data-filter="all">Todos</button>
-        <button type="button" class="filter-btn" data-filter="proximos">Próximos jogos</button>
+
+    <!-- Navegação entre páginas (âncora) -->
+    <nav class="page-nav" aria-label="Navegação de páginas">
+      <button type="button" class="page-nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navMenu">
+        <span class="page-nav-toggle-label" id="navToggleLabel">Cronograma</span>
+        <span class="hamburger" aria-hidden="true"><span></span><span></span><span></span></span>
+      </button>
+      <div class="page-nav-links" id="navMenu">
+        <a href="#cronograma" class="page-nav-btn" data-view="cronograma">Cronograma</a>
+        <a href="#chaveamento" class="page-nav-btn" data-view="chaveamento">Chaveamento</a>
+        <a href="#aliancas" class="page-nav-btn" data-view="aliancas">Alianças</a>
       </div>
-    </div>
-    <div class="legend" aria-label="Legenda de status">
-      <div class="legend-item"><span class="legend-swatch"
-          style="background:linear-gradient(135deg,#ffd43b,#ffa94d);"></span>Próximo</div>
-      <div class="legend-item"><span class="legend-swatch"
-          style="background:linear-gradient(135deg,#74c0fc,#4dabf7);"></span>Fila</div>
-      <div class="legend-item"><span class="legend-swatch"
-          style="background:linear-gradient(135deg,#51cf66,#2f9e44);"></span>Completo</div>
-      <div class="legend-item"><span class="legend-swatch" style="background:#2c3744;"></span>Pendente</div>
-    </div>
-    <div class="table-wrapper mt-3">
-      <table class="schedule" aria-describedby="ultima-atualizacao">
-        <thead>
-          <tr>
-            <th scope="col">Nº</th>
-            <th scope="col">Dia</th>
-            <th scope="col">Horário</th>
-            <th scope="col">Equipes</th>
-            <th scope="col">Status</th>
-          </tr>
-        </thead>
-        <tbody id="tabela-jogos" aria-live="polite"></tbody>
-      </table>
-    </div>
+    </nav>
+
+    <!-- ================= VIEW: CRONOGRAMA ================= -->
+      <section id="view-cronograma" class="page-view">
+      <div class="toolbar">
+        <input type="text" id="pesquisa-time" class="form-control" placeholder="Pesquisar equipe" />
+        <div class="filter-group" role="group" aria-label="Filtros de status">
+          <button type="button" class="filter-btn active" data-filter="all">Todos</button>
+          <button type="button" class="filter-btn" data-filter="proximos">Próximos jogos</button>
+        </div>
+      </div>
+      <div class="legend" aria-label="Legenda de status">
+        <div class="legend-item"><span class="legend-swatch"
+            style="background:linear-gradient(135deg,#ffd43b,#ffa94d);"></span>Próximo</div>
+        <div class="legend-item"><span class="legend-swatch"
+            style="background:linear-gradient(135deg,#74c0fc,#4dabf7);"></span>Fila</div>
+        <div class="legend-item"><span class="legend-swatch"
+            style="background:linear-gradient(135deg,#51cf66,#2f9e44);"></span>Completo</div>
+        <div class="legend-item"><span class="legend-swatch" style="background:#2c3744;"></span>Pendente</div>
+      </div>
+      <div class="table-wrapper mt-3">
+        <table class="schedule" aria-describedby="ultima-atualizacao">
+          <thead>
+            <tr>
+              <th scope="col">Nº</th>
+              <th scope="col">Dia</th>
+              <th scope="col">Horário</th>
+              <th scope="col">Equipes</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody id="tabela-jogos" aria-live="polite"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ================= VIEW: RANKING ================= -->
+    <section id="view-ranking" class="page-view" hidden>
+      <div class="rank-tabs" role="tablist" aria-label="Abas do ranking">
+        <button type="button" class="rank-tab active" data-tab="tabela" role="tab">Ranking Geral</button>
+        <button type="button" class="rank-tab" data-tab="grafico" role="tab">Gráfico</button>
+      </div>
+
+      <!-- Sub-aba: tabela de ranking geral -->
+      <div id="rank-panel-tabela" class="rank-panel" role="tabpanel">
+        <div class="table-wrapper mt-3">
+          <table class="ranking-table">
+            <thead>
+              <tr>
+                <th scope="col">Pos.</th>
+                <th scope="col">Nome do time</th>
+                <th scope="col">Média de pontos</th>
+                <th scope="col">Média de pontos individuais</th>
+                <th scope="col">Média de pontos de cooperação</th>
+              </tr>
+            </thead>
+            <tbody id="ranking-body" aria-live="polite"></tbody>
+          </table>
+        </div>
+        <p class="rank-note">
+          <strong>Capitães da escolha de alianças:</strong> os 8 primeiros colocados (destacados).
+          Critério de desempate: 1) média de pontos, 2) média de pontos individuais,
+          3) média de pontos de cooperação.
+        </p>
+      </div>
+
+      <!-- Sub-aba: gráfico horizontal -->
+      <div id="rank-panel-grafico" class="rank-panel" role="tabpanel" hidden>
+        <div class="chart-legend" aria-hidden="true">
+          <span class="chart-legend-item"><span class="chart-swatch seg-ind"></span>Pontos individuais</span>
+          <span class="chart-legend-item"><span class="chart-swatch seg-coop"></span>Pontos de cooperação</span>
+        </div>
+        <div class="table-wrapper mt-3">
+          <div id="ranking-chart" class="ranking-chart" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= VIEW: CHAVEAMENTO ================= -->
+    <section id="view-chaveamento" class="page-view" hidden>
+      <div class="chave-titulo">Chaveamento eliminatórias</div>
+      <div class="chave-legenda">
+        Quartas e semifinais: <strong>1 jogo</strong> (vence o maior total). Final e 3º lugar: <strong>melhor de 3</strong>.
+      </div>
+      <div id="chaveamento" class="chave-wrapper" aria-live="polite"></div>
+    </section>
+
+    <!-- ================= VIEW: ALIANÇAS ================= -->
+    <section id="view-aliancas" class="page-view" hidden>
+      <div class="chave-titulo">Alianças</div>
+      <div id="aliancas-grid" class="aliancas-grid" aria-live="polite"></div>
+    </section>
   </div>
 
   <!-- Modal Resultados -->
@@ -66,7 +164,7 @@
     <div class="resultado-backdrop" data-close-modal></div>
     <div class="resultado-dialog" role="dialog" aria-modal="true" aria-labelledby="resultadoTitulo">
       <button class="close-btn" data-close-modal aria-label="Fechar">×</button>
-      <h2 id="resultadoTitulo" class="modal-title">Resultado do Jogo <span id="modalNumeroJogo"></span></h2>
+      <h2 id="resultadoTitulo" class="modal-title"><span id="modalTituloPrefixo">Resultado do Jogo</span> <span id="modalNumeroJogo"></span></h2>
       <div id="modalConteudo" class="modal-conteudo">
         <div class="loading">Carregando...</div>
       </div>
@@ -316,6 +414,22 @@
       color: #5b6b79;
     }
 
+    /* Flag de equipe de treino (não jogou de verdade) */
+    .flag-treino {
+      font-size: .72rem;
+      font-weight: 600;
+      font-style: italic;
+      color: #c0392b;
+      margin-left: .3rem;
+      white-space: nowrap;
+    }
+
+    /* Dentro do modal os cards têm fundo colorido: flag em branco p/ contraste */
+    .res-alliance-name .flag-treino {
+      color: #fff;
+      opacity: .9;
+    }
+
     /* Pesquisa: destaque e desfoque */
     #tabela-jogos tr.search-fade {
       opacity: .65;
@@ -380,6 +494,7 @@
 
       .resultado-cards {
         grid-template-columns: 1fr;
+        grid-auto-rows: 1fr;
         gap: 1rem;
       }
 
@@ -404,11 +519,898 @@
         padding-top: max(1rem, env(safe-area-inset-top));
       }
     }
+
+    /* ================= Navegação entre páginas (âncora) ================= */
+    .page-nav {
+      margin: .25rem 0 1.1rem;
+      border-bottom: 1px solid #d9e1ea;
+    }
+
+    .page-nav-links {
+      display: flex;
+      gap: .4rem;
+    }
+
+    /* Botão hambúrguer: só aparece no celular */
+    .page-nav-toggle {
+      display: none;
+    }
+
+    .page-nav-btn {
+      text-decoration: none;
+      font-weight: 600;
+      font-size: .95rem;
+      color: #52606d;
+      padding: .55rem .95rem;
+      border-radius: .55rem .55rem 0 0;
+      border-bottom: 3px solid transparent;
+      transition: .2s;
+    }
+
+    .page-nav-btn:hover {
+      color: #2d3748;
+      background: #eef2f7;
+    }
+
+    .page-nav-btn.active {
+      color: #1b6fc4;
+      border-bottom-color: #1b6fc4;
+    }
+
+    .page-view[hidden] {
+      display: none;
+    }
+
+    /* ================= Navegação: menu hambúrguer (celular) ================= */
+    @media (max-width: 640px) {
+      .page-nav {
+        position: relative;
+        border-bottom: none;
+      }
+
+      .page-nav-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: .6rem;
+        width: 100%;
+        padding: .7rem .9rem;
+        background: #fff;
+        border: 1px solid #d9e1ea;
+        border-radius: .6rem;
+        font-family: inherit;
+        font-weight: 700;
+        font-size: 1rem;
+        color: #1b6fc4;
+        cursor: pointer;
+      }
+
+      .hamburger {
+        position: relative;
+        flex: 0 0 auto;
+        width: 22px;
+        height: 16px;
+      }
+
+      .hamburger span {
+        position: absolute;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: currentColor;
+        border-radius: 2px;
+        transition: transform .25s ease, opacity .2s ease;
+      }
+
+      .hamburger span:nth-child(1) { top: 0; }
+      .hamburger span:nth-child(2) { top: 7px; }
+      .hamburger span:nth-child(3) { top: 14px; }
+
+      .page-nav.open .hamburger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+      .page-nav.open .hamburger span:nth-child(2) { opacity: 0; }
+      .page-nav.open .hamburger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+      .page-nav-links {
+        display: none;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: calc(100% + .4rem);
+        z-index: 20;
+        flex-direction: column;
+        gap: .15rem;
+        background: #fff;
+        border: 1px solid #d9e1ea;
+        border-radius: .6rem;
+        padding: .35rem;
+        box-shadow: 0 14px 30px -12px rgba(15, 23, 42, .3);
+      }
+
+      .page-nav.open .page-nav-links {
+        display: flex;
+      }
+
+      .page-nav-btn {
+        border-radius: .5rem;
+        border-bottom: 0;
+        padding: .75rem .85rem;
+      }
+
+      .page-nav-btn:hover {
+        background: #eef2f7;
+      }
+
+      .page-nav-btn.active {
+        border-bottom: 0;
+        color: #1b6fc4;
+        background: #eaf3fc;
+      }
+    }
+
+    /* ================= Ranking: sub-abas ================= */
+    .rank-tabs {
+      display: flex;
+      gap: .4rem;
+      margin-bottom: .25rem;
+    }
+
+    .rank-tab {
+      background: #eef2f7;
+      color: #52606d;
+      border: 1px solid #d9e1ea;
+      border-bottom: 0;
+      font-weight: 600;
+      font-size: .88rem;
+      padding: .5rem .9rem;
+      border-radius: .55rem .55rem 0 0;
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    .rank-tab:hover {
+      background: #e2e9f0;
+    }
+
+    .rank-tab.active {
+      background: #fff;
+      color: #1b6fc4;
+      border-color: #d9e1ea;
+    }
+
+    .rank-panel[hidden] {
+      display: none;
+    }
+
+    /* ================= Ranking: tabela (standalone, mobile-first) =================
+       Não usa a classe .schedule de propósito: o layout "card" mobile do
+       cronograma é específico das colunas Nº/Dia/Horário e quebraria aqui. */
+    .ranking-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .82rem;
+    }
+
+    .ranking-table thead th {
+      background: #f0f4f8;
+      padding: .7rem .75rem;
+      font-weight: 600;
+      letter-spacing: .5px;
+      font-size: .62rem;
+      text-transform: uppercase;
+      color: #495a69;
+      border-bottom: 1px solid #e2e8f0;
+      text-align: left;
+    }
+
+    .ranking-table tbody td {
+      padding: .55rem .75rem;
+      border-bottom: 1px solid #eef2f5;
+      vertical-align: middle;
+    }
+
+    .ranking-table tbody tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .ranking-table .rank-pos {
+      font-weight: 700;
+      color: #1b6fc4;
+      text-align: center;
+      width: 3.5rem;
+    }
+
+    .ranking-table .rank-nome {
+      font-weight: 600;
+      color: #1a2f42;
+    }
+
+    .ranking-table .rank-num {
+      text-align: center;
+      font-variant-numeric: tabular-nums;
+      color: #33424f;
+    }
+
+    .ranking-table .rank-total {
+      font-weight: 700;
+      color: #1a2f42;
+    }
+
+    .ranking-table tr.rank-captain .rank-pos::after {
+      content: "★";
+      display: block;
+      font-size: .7rem;
+      color: #f0a020;
+      line-height: 1;
+    }
+
+    .ranking-table tr.rank-captain {
+      background: linear-gradient(90deg, rgba(255, 216, 128, .18), rgba(255, 216, 128, 0));
+    }
+
+    .rank-note {
+      margin: .9rem .2rem 0;
+      font-size: .82rem;
+      color: #52606d;
+    }
+
+    .rank-note strong {
+      color: #2d3748;
+    }
+
+    /* Mobile: cada equipe vira um card (posição + nome em cima, métricas
+       rotuladas embaixo). O cabeçalho some, então usamos data-label. */
+    @media (max-width: 640px) {
+      .ranking-table thead {
+        display: none;
+      }
+
+      .ranking-table tbody tr {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        column-gap: .7rem;
+        row-gap: .35rem;
+        padding: .75rem .9rem .85rem;
+        margin: .55rem .1rem;
+        background: #fff;
+        border-radius: .9rem;
+        box-shadow: 0 4px 14px -4px rgba(15, 23, 42, .12);
+        align-items: center;
+      }
+
+      .ranking-table tbody td {
+        border: 0;
+        padding: 0;
+      }
+
+      .ranking-table .rank-pos {
+        grid-column: 1;
+        grid-row: 1;
+        width: auto;
+        justify-self: start;
+        background: #eef2f7;
+        border-radius: .5rem;
+        padding: .18rem .55rem;
+        min-width: 2.2rem;
+      }
+
+      .ranking-table tr.rank-captain .rank-pos::after {
+        display: inline;
+        margin-left: .2rem;
+      }
+
+      .ranking-table .rank-nome {
+        grid-column: 2;
+        grid-row: 1;
+        font-size: 1rem;
+      }
+
+      .ranking-table .rank-num {
+        grid-column: 1 / 3;
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        text-align: left;
+        padding-top: .4rem;
+        border-top: 1px solid #eef2f5;
+        font-weight: 600;
+      }
+
+      .ranking-table .rank-num::before {
+        content: attr(data-label);
+        font-size: .72rem;
+        font-weight: 500;
+        color: #64758b;
+      }
+
+      .ranking-table .rank-total {
+        color: #1b6fc4;
+      }
+    }
+
+    /* ================= Ranking: gráfico horizontal ================= */
+    .chart-legend {
+      display: flex;
+      gap: 1.1rem;
+      margin: .35rem .2rem .1rem;
+      font-size: .82rem;
+      color: #52606d;
+      flex-wrap: wrap;
+    }
+
+    .chart-legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+    }
+
+    .chart-swatch {
+      width: 14px;
+      height: 14px;
+      border-radius: 3px;
+      display: inline-block;
+    }
+
+    .seg-ind {
+      background: linear-gradient(135deg, #2f8dff, #0b63d6);
+    }
+
+    .seg-coop {
+      background: linear-gradient(135deg, #ffd54f, #ffb347);
+    }
+
+    .ranking-chart {
+      display: flex;
+      flex-direction: column;
+      gap: .5rem;
+      padding: .4rem .2rem;
+    }
+
+    .chart-row {
+      display: grid;
+      grid-template-columns: minmax(120px, 220px) 1fr;
+      align-items: center;
+      gap: .75rem;
+    }
+
+    .chart-label {
+      font-size: .85rem;
+      font-weight: 600;
+      color: #1a2f42;
+      display: flex;
+      align-items: center;
+      gap: .45rem;
+      overflow-wrap: anywhere;
+    }
+
+    .chart-rank {
+      flex: 0 0 auto;
+      background: #eef2f7;
+      color: #1b6fc4;
+      font-size: .72rem;
+      font-weight: 700;
+      border-radius: .4rem;
+      padding: .1rem .4rem;
+      min-width: 1.6rem;
+      text-align: center;
+    }
+
+    .chart-bar-track {
+      display: flex;
+      align-items: stretch;
+      height: 26px;
+      background: #f0f4f8;
+      border-radius: .5rem;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .chart-seg {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 0 .4rem;
+      color: #fff;
+      font-size: .72rem;
+      font-weight: 700;
+      min-width: 0;
+      transition: width .5s cubic-bezier(.16, .8, .24, 1);
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    .chart-seg.seg-coop {
+      color: #4a3200;
+    }
+
+    .chart-total {
+      align-self: center;
+      margin-left: .55rem;
+      font-size: .82rem;
+      font-weight: 700;
+      color: #1a2f42;
+      white-space: nowrap;
+    }
+
+    .chart-empty,
+    .ranking-empty {
+      text-align: center;
+      padding: 1.2rem;
+      color: #7a8794;
+    }
+
+    @media (max-width:600px) {
+      .chart-row {
+        grid-template-columns: 1fr;
+        gap: .25rem;
+      }
+    }
+
+    /* ================= Chaveamento (bracket) ================= */
+    .chave-titulo {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #2d3748;
+      margin: .3rem .2rem .2rem;
+    }
+
+    .chave-legenda {
+      font-size: .84rem;
+      color: #52606d;
+      margin: 0 .2rem 1rem;
+    }
+
+    .chave-wrapper {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(170px, 1fr));
+      align-items: center;
+      gap: 1rem;
+      overflow-x: auto;
+      padding: .4rem;
+      position: relative;
+    }
+
+    /* Camada SVG com as linhas clássicas do chaveamento (só no desktop) */
+    .chave-conectores {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: visible;
+      z-index: 0;
+    }
+
+    /* Divisores de fase: só aparecem no layout mobile */
+    .chave-sec-divisor {
+      display: none;
+    }
+
+    .chave-col {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 1.4rem;
+      min-width: 0;
+    }
+
+    .chave-centro {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      min-width: 0;
+    }
+
+    /* Card de confronto (2 alianças) */
+    .ch-match {
+      background: #fff;
+      border: 1px solid #d9e1ea;
+      border-radius: .8rem;
+      padding: .55rem;
+      box-shadow: 0 4px 14px -6px rgba(15, 23, 42, .15);
+      position: relative;
+      z-index: 1;
+    }
+
+    .ch-fase-label {
+      font-size: .62rem;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      color: #7a8794;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: .35rem;
+    }
+
+    .ch-ali {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: .5rem;
+      background: #4a72e8;
+      color: #fff;
+      border-radius: .55rem;
+      padding: .4rem .6rem;
+    }
+
+    .ch-ali.vencedor {
+      background: linear-gradient(135deg, #2f9e44, #248838);
+      box-shadow: 0 0 0 2px rgba(47, 158, 68, .35);
+    }
+
+    .ch-ali.perdedor {
+      background: #e6ebf1;
+      color: #7a8794;
+    }
+
+    .ch-ali.pendente {
+      background: #eef2f7;
+      color: #9aa7b4;
+      font-style: italic;
+    }
+
+    .ch-ali-info {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.15;
+      min-width: 0;
+    }
+
+    .ch-ali-nome {
+      font-weight: 700;
+      font-size: .9rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .ch-ali-times {
+      font-size: .68rem;
+      opacity: .85;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .ch-ali-pts {
+      font-weight: 800;
+      font-size: 1rem;
+      font-variant-numeric: tabular-nums;
+      flex: 0 0 auto;
+    }
+
+    .ch-vs {
+      text-align: center;
+      font-size: .7rem;
+      font-weight: 700;
+      color: #98a4b0;
+      margin: .3rem 0;
+    }
+
+    /* Final e 3º lugar */
+    .ch-final {
+      width: 100%;
+      border: 0;
+      color: #4a3200;
+      background: linear-gradient(135deg, #ffe08a, #ffd45e);
+      box-shadow: 0 8px 22px -8px rgba(240, 176, 32, .55);
+    }
+
+    .ch-final .ch-fase-label {
+      color: #8a6d1a;
+    }
+
+    .ch-terceiro {
+      width: 100%;
+      border: 0;
+      color: #fff;
+      background: linear-gradient(135deg, #f0954a, #e07b2e);
+    }
+
+    .ch-terceiro .ch-fase-label {
+      color: #fff;
+      opacity: .9;
+    }
+
+    /* Dentro de final/3º as alianças ficam translúcidas p/ combinar com o fundo */
+    .ch-final .ch-ali,
+    .ch-terceiro .ch-ali {
+      background: rgba(255, 255, 255, .35);
+      color: inherit;
+    }
+
+    .ch-final .ch-ali.vencedor {
+      background: #fff;
+      color: #1a2f42;
+      box-shadow: 0 0 0 2px rgba(255, 255, 255, .8);
+    }
+
+    .ch-terceiro .ch-ali.vencedor {
+      background: #fff;
+      color: #b85c15;
+    }
+
+    .ch-serie {
+      text-align: center;
+      font-size: .72rem;
+      font-weight: 700;
+      margin-top: .35rem;
+    }
+
+    .ch-campeao {
+      text-align: center;
+      font-weight: 800;
+      margin-top: .3rem;
+      font-size: .82rem;
+    }
+
+    /* Confrontos clicáveis (abrem detalhe) */
+    .ch-match.ch-clicavel {
+      cursor: pointer;
+      transition: transform .12s ease, box-shadow .12s ease;
+    }
+
+    .ch-match.ch-clicavel:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px -6px rgba(15, 23, 42, .35);
+    }
+
+    .ch-match.ch-clicavel:focus-visible {
+      outline: 2px solid #ffd43b;
+      outline-offset: 2px;
+    }
+
+    .ch-detalhe-hint {
+      margin-top: .45rem;
+      font-size: .66rem;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      opacity: .72;
+      text-align: center;
+    }
+
+    .ch-detalhe-hint::before {
+      content: "🔍 ";
+    }
+
+    /* Detalhe no modal: linha de equipes da aliança + abas dos jogos (melhor de 3) */
+    .res-alliance-times {
+      font-size: .78rem;
+      opacity: .9;
+      margin: -.15rem 0 .55rem;
+      text-align: center;
+      color: #fff;
+    }
+
+    .res-sem-envio {
+      padding: 1.2rem 0;
+      text-align: center;
+      opacity: .7;
+      font-style: italic;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .chave-serie-resumo {
+      text-align: center;
+      font-size: 1rem;
+      font-weight: 600;
+      margin: 0 0 .85rem;
+    }
+
+    .chave-serie-resumo .campeao-tag {
+      color: #b26b00;
+      font-weight: 800;
+    }
+
+    .chave-jogo-abas {
+      display: flex;
+      gap: .45rem;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+      width: fit-content;
+      max-width: 100%;
+      margin: 0 auto 1rem;
+      padding-bottom: .4rem;
+    }
+
+    .chave-jogo-aba {
+      border: 1px solid #d9e1ea;
+      background: #f1f4f8;
+      color: #33465a;
+      padding: .38rem .95rem;
+      border-radius: 999px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: .85rem;
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      flex: 0 0 auto;
+      white-space: nowrap;
+      transition: background .12s ease, color .12s ease;
+    }
+
+    .chave-jogo-aba .aba-dot {
+      width: .55rem;
+      height: .55rem;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .chave-jogo-aba .aba-dot.red { background: #ff6b6b; }
+    .chave-jogo-aba .aba-dot.blue { background: #4dabf7; }
+    .chave-jogo-aba .aba-dot.vazio { background: rgba(255, 255, 255, .3); }
+
+    .chave-jogo-aba.active {
+      background: #ffd43b;
+      color: #4a3200;
+      border-color: #ffd43b;
+    }
+
+    .chave-jogo-painel[hidden] { display: none; }
+
+    /* ================= Alianças ================= */
+    .aliancas-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: .9rem;
+      padding: .3rem;
+    }
+
+    .ali-card {
+      background: #fff;
+      border: 1px solid #d9e1ea;
+      border-radius: .9rem;
+      padding: .85rem 1rem;
+      box-shadow: 0 4px 14px -6px rgba(15, 23, 42, .12);
+    }
+
+    .ali-card-nome {
+      font-weight: 700;
+      color: #1b6fc4;
+      font-size: 1rem;
+      margin-bottom: .5rem;
+      border-bottom: 1px solid #eef2f5;
+      padding-bottom: .4rem;
+    }
+
+    .ali-times {
+      display: flex;
+      flex-direction: column;
+      gap: .35rem;
+    }
+
+    .ali-time {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      font-size: .9rem;
+      color: #1a2f42;
+    }
+
+    .ali-time-badge {
+      flex: 0 0 auto;
+      width: 1.4rem;
+      height: 1.4rem;
+      border-radius: .4rem;
+      background: #eef2f7;
+      color: #4a72e8;
+      font-size: .7rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @media (max-width:991.98px) {
+      /* Abaixo da largura em que o bracket clássico de 5 colunas cabe sem
+         estourar, trocamos para o layout empilhado em 2 colunas. As colunas
+         "somem" do layout (display:contents) e os confrontos viram itens
+         diretos do grid, permitindo reordená-los com divisores de fase:
+           --- Quartas de final ---
+           quarta | quarta
+           quarta | quarta
+           --- Semifinal ---
+           semi   | semi
+           --- Final e 3º lugar ---
+           terceiro (largura total)
+           final    (largura total)  */
+      .chave-wrapper {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: .7rem;
+        align-items: start;
+        overflow-x: visible;
+      }
+
+      /* Sem bracket clássico aqui: esconde as linhas conectoras */
+      .chave-conectores {
+        display: none;
+      }
+
+      .chave-col,
+      .chave-centro {
+        display: contents;
+      }
+
+      .ch-match {
+        min-width: 0;
+      }
+
+      .chave-sec-divisor {
+        display: flex;
+        align-items: center;
+        gap: .6rem;
+        grid-column: 1 / -1;
+        margin: .35rem 0 -.05rem;
+        color: #52606d;
+        font-weight: 700;
+        font-size: .78rem;
+        text-transform: uppercase;
+        letter-spacing: .6px;
+      }
+
+      .chave-sec-divisor::before,
+      .chave-sec-divisor::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: #d9e1ea;
+      }
+
+      .chave-sec-divisor[data-div="quartas"] { order: 0; }
+      .ch-match[data-chave-id="q0"] { order: 1; }
+      .ch-match[data-chave-id="q2"] { order: 2; }
+      .ch-match[data-chave-id="q1"] { order: 3; }
+      .ch-match[data-chave-id="q3"] { order: 4; }
+      .chave-sec-divisor[data-div="semi"] { order: 5; }
+      .ch-match[data-chave-id="se"] { order: 6; }
+      .ch-match[data-chave-id="sd"] { order: 7; }
+      .chave-sec-divisor[data-div="finais"] { order: 8; }
+      .ch-match[data-chave-id="terceiro"] { order: 9; grid-column: 1 / -1; }
+      .ch-match[data-chave-id="final"] { order: 10; grid-column: 1 / -1; }
+    }
   </style>
 
-  <script type="module">
+  <script type="text/plain">
     import { carregarSheetData } from "../../website/sheets-to-website/sheetUtils.js";
     import { abrirResultadoJogo, fecharResultadoJogo, inicializarResultadosSchedule } from "../../website/games-schedule/resultsModal.js";
+    import { calcularRanking } from "./ranking.js";
+    import { construirChaveamento } from "./chaveamento.js";
+
+    // Planilha de respostas das qualificatórias 2026 (Google Forms)
+    const SHEET_RESULTADOS_URL = "https://docs.google.com/spreadsheets/d/1PGOdUi3p0ZttiHlhkk3Il53ZvThFwsQfWqdoDPlXP0s/edit?gid=1402051272#gid=1402051272";
+
+    // Chaveamento das eliminatórias
+    const SHEET_JOGOS_ELIM_URL = "https://docs.google.com/spreadsheets/d/1SW3MyTRQzhMUCHjvXLhrdTijCCtq1yfgv6RAHdV9QYs/edit?gid=520356987#gid=520356987";
+    const SHEET_ALIANCAS_URL = "https://docs.google.com/spreadsheets/d/1SW3MyTRQzhMUCHjvXLhrdTijCCtq1yfgv6RAHdV9QYs/edit?gid=892503405#gid=892503405";
+    const SHEET_RESULTADOS_ELIM_URL = "https://docs.google.com/spreadsheets/d/1PGOdUi3p0ZttiHlhkk3Il53ZvThFwsQfWqdoDPlXP0s/edit?gid=406945627#gid=406945627";
+
+    // Leitura de coluna tolerante a acento/espaço/underscore nos cabeçalhos
+    function normKey(s) { return String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[\s_]/g, '').toLowerCase(); }
+    function campo(obj, nome) { const alvo = normKey(nome); for (const k of Object.keys(obj || {})) { if (normKey(k) === alvo) return obj[k]; } return ''; }
+
+    // "Equipe Treino": adversário de treino (não é uma equipe real que jogou)
+    function isEquipeTreino(nome) { return normKey(nome) === 'equipetreino'; }
+    // Info de exibição de uma equipe: aceita string ou { nome, naoJogou }.
+    // Quando a equipe não jogou (treino), mostra "(não jogou)" ao lado do nome
+    // — usando o nome REAL do adversário agendado quando disponível.
+    function nomeComFlag(info) {
+      const nome = typeof info === 'string' ? info : info.nome;
+      const naoJogou = typeof info === 'string' ? isEquipeTreino(info) : (info.naoJogou || isEquipeTreino(nome));
+      return naoJogou
+        ? `${nome} <span class="flag-treino" title="Não jogou (adversário de treino)">(não jogou)</span>`
+        : nome;
+    }
+
+    // Nomes resolvidos por jogo, para o modal reaproveitar:
+    // { [numero]: { [nomeResultadoNormalizado]: { nome, naoJogou } } }
+    const resolvidosPorJogo = {};
+
 
     async function atualizarTabela() {
       const agora = new Date()
@@ -422,7 +1424,7 @@
       }
 
       console.log("🔎 Iniciando atualização do cronograma...");
-      const data = await carregarSheetData("https://docs.google.com/spreadsheets/d/1SW3MyTRQzhMUCHjvXLhrdTijCCtq1yfgv6RAHdV9QYs/edit?gid=2032908800#gid=2032908800") //ATUALIZADO 2026
+      const data = await carregarSheetData("https://docs.google.com/spreadsheets/d/1SW3MyTRQzhMUCHjvXLhrdTijCCtq1yfgv6RAHdV9QYs/edit?gid=2032908800#gid=2032908800")//ATUALIZADO 2026
       console.log("📄 Linhas da planilha (agenda):", data);
       let jogosAgrupados = []
       data.forEach(jogo => {
@@ -444,30 +1446,47 @@
       })
       console.log("🧩 Jogos agrupados:", jogosAgrupados);
 
-      const dataJogosJogados = await carregarSheetData("https://docs.google.com/spreadsheets/d/1R1JcLto9Eowp3VG-SWhJIve4Q9ikWV3ani4eWzOhRoc/edit?usp=sharing&gid=283528837#gid=283528837") //TABELA RESULTADO 2025
+      const dataJogosJogados = await carregarSheetData(SHEET_RESULTADOS_URL)
       console.log("📄 Linhas da planilha (resultados):", dataJogosJogados);
       const jogosJogadosMap = {}
       dataJogosJogados.forEach(item => {
-        const num = item['Número de jogo '] || item['Numero de jogo'] || item['numeroJogo'] || item['Número de jogo'];
-        if (!num) return;
-        if (!jogosJogadosMap[num]) jogosJogadosMap[num] = [];
-        jogosJogadosMap[num].push(item);
+        const num = String(campo(item, 'selecao_numero_jogo')).trim();
+        const equipe = String(campo(item, 'selecao_da_equipe')).trim();
+        if (!num || !equipe) return;
+        if (!jogosJogadosMap[num]) jogosJogadosMap[num] = {};
+        jogosJogadosMap[num][equipe] = item; // dedupe por equipe (último envio vence)
       })
       console.log("🧩 Resultados agrupados:", jogosJogadosMap);
 
       Object.values(jogosAgrupados).forEach(jogo => {
         if (!jogo) return;
         const num = jogo.numeroJogo;
-        if (jogosJogadosMap[num] && jogosJogadosMap[num].length >= 2) {
+        const equipesAgenda = [...jogo.equipes]; // nomes reais agendados
+        const resultado = jogosJogadosMap[num];
+        const nomesEquipes = resultado ? Object.keys(resultado) : [];
+        if (nomesEquipes.length >= 2) {
           jogo.completo = true;
-          const first = jogosJogadosMap[num][0] || {};
-          const second = jogosJogadosMap[num][1] || {};
-          jogo.equipes = [
-            first['Equipe '] || first['Equipe'] || first.equipe || '',
-            second['Equipe '] || second['Equipe'] || second.equipe || ''
-          ].filter(Boolean);
-          jogo.pontosEquipe1 = first['Pontos Individuais Equipe '] || first['Pontos Individuais Equipe'] || first['Pontos Individuais'] || '';
-          jogo.pontosEquipe2 = second['Pontos Individuais Equipe '] || second['Pontos Individuais Equipe'] || second['Pontos Individuais'] || '';
+          // quem efetivamente jogou (nome != "Equipe treino")
+          const nomesReais = nomesEquipes.filter(n => !isEquipeTreino(n));
+          // Resolve nome de exibição + flag para cada equipe do resultado
+          const info = nomesEquipes.slice(0, 2).map(nome => {
+            if (isEquipeTreino(nome)) {
+              // adversário agendado que NÃO é quem realmente jogou
+              const adversario = equipesAgenda.find(a => !nomesReais.some(r => normKey(r) === normKey(a)));
+              return { nome: adversario || nome, naoJogou: true, resultKey: normKey(nome) };
+            }
+            return { nome, naoJogou: false, resultKey: normKey(nome) };
+          });
+          jogo.equipesInfo = info;
+          jogo.equipes = info.map(e => e.nome);
+          jogo.pontosEquipe1 = campo(resultado[nomesEquipes[0]], 'pts_totais') || '';
+          jogo.pontosEquipe2 = campo(resultado[nomesEquipes[1]], 'pts_totais') || '';
+          // guarda para o modal resolver pelo nome vindo do resultado
+          resolvidosPorJogo[num] = {};
+          info.forEach(e => { resolvidosPorJogo[num][e.resultKey] = { nome: e.nome, naoJogou: e.naoJogou }; });
+        } else {
+          // jogo ainda não completo: info a partir da agenda (sem flag de resolução)
+          jogo.equipesInfo = equipesAgenda.map(nome => ({ nome, naoJogou: isEquipeTreino(nome) }));
         }
       })
 
@@ -500,10 +1519,14 @@
 
       let jogosParaExibir = [];
       if (filtroAtivo === 'proximos') {
-        // Últimos 4 jogos completos + todos os próximos (não completos)
+        // Últimos 4 jogos completos + apenas os que estão em "próximo" ou "fila"
+        // (exclui os pendentes distantes do resto do cronograma)
         const jogosCompletos = jogosAgrupados.filter(j => j && j.completo).slice(-4);
-        const jogosNaoCompletos = jogosAgrupados.filter(j => j && !j.completo);
-        jogosParaExibir = [...jogosCompletos, ...jogosNaoCompletos];
+        const jogosProximosFila = jogosAgrupados.filter(j =>
+          j && !j.completo &&
+          (proximosJogosIds.includes(j.numeroJogo) || entrarFilaIds.includes(j.numeroJogo))
+        );
+        jogosParaExibir = [...jogosCompletos, ...jogosProximosFila];
       } else {
         // Todos os jogos
         jogosParaExibir = jogosAgrupados.filter(j => j);
@@ -530,10 +1553,13 @@
         tr.dataset.numero = jogo.numeroJogo;
         tr.dataset.status = statusKey;
         const equipesFormatadas = (() => {
-          if (jogo.equipes.length === 2) {
-            return `<div class=\"team-match-line\"><span class=\"team-name-lg\">${jogo.equipes[0]}</span><span class=\"vs-sep\">×</span><span class=\"team-name-lg\">${jogo.equipes[1]}</span></div>`;
+          const infos = (jogo.equipesInfo && jogo.equipesInfo.length)
+            ? jogo.equipesInfo
+            : jogo.equipes.map(n => ({ nome: n, naoJogou: false }));
+          if (infos.length === 2) {
+            return `<div class=\"team-match-line\"><span class=\"team-name-lg\">${nomeComFlag(infos[0])}</span><span class=\"vs-sep\">×</span><span class=\"team-name-lg\">${nomeComFlag(infos[1])}</span></div>`;
           }
-          return `<div class=\"team-names">${jogo.equipes.map(n => `<span class=\\"team-chip\\">${n}</span>`).join('')}</div>`;
+          return `<div class=\"team-names">${infos.map(e => `<span class=\\"team-chip\\">${nomeComFlag(e)}</span>`).join('')}</div>`;
         })();
         tr.innerHTML = `
           <td class="numero-col">${jogo.numeroJogo}</td>
@@ -571,11 +1597,483 @@
       }
     }
 
+    // Resolve, para o modal, o nome de exibição de uma equipe a partir do
+    // nome cru vindo do resultado (troca "Equipe treino" pelo adversário real).
+    function resolverEquipeModal(numero, nomeResultado) {
+      const mapa = resolvidosPorJogo[String(numero)];
+      const info = mapa && mapa[normKey(nomeResultado)];
+      if (info) return info;
+      return { nome: nomeResultado, naoJogou: isEquipeTreino(nomeResultado) };
+    }
+
     // Atualiza a tabela imediatamente e depois a cada 30s
     atualizarTabela().then(() => inicializarResultadosSchedule({
-      urlPlanilhaQuali: "https://docs.google.com/spreadsheets/d/1R1JcLto9Eowp3VG-SWhJIve4Q9ikWV3ani4eWzOhRoc/edit?usp=sharing&gid=283528837#gid=283528837"//TABELA RESULTADO 2025
+      urlPlanilhaQuali: SHEET_RESULTADOS_URL,
+      resolverEquipe: resolverEquipeModal
     })).catch(err => console.error("❌ Erro ao atualizar cronograma:", err));
     setInterval(atualizarTabela, 30000)
+
+    // ================= Ranking =================
+    function fmt(n) { return Math.round(n); }
+
+    function renderRankingTabela(lista) {
+      const tb = document.getElementById('ranking-body');
+      if (!lista.length) {
+        tb.innerHTML = `<tr><td colspan="5" class="ranking-empty">Nenhum resultado registrado ainda.</td></tr>`;
+        return;
+      }
+      tb.innerHTML = lista.map((t, i) => `
+        <tr class="${i < 8 ? 'rank-captain' : ''}">
+          <td class="rank-pos">${i + 1}</td>
+          <td class="rank-nome">${t.nome}</td>
+          <td class="rank-num rank-total" data-label="Média de pontos">${fmt(t.mediaTotal)}</td>
+          <td class="rank-num" data-label="Média individuais">${fmt(t.mediaInd)}</td>
+          <td class="rank-num" data-label="Média cooperação">${fmt(t.mediaCoop)}</td>
+        </tr>`).join('');
+    }
+
+    function renderRankingChart(lista) {
+      const cont = document.getElementById('ranking-chart');
+      if (!lista.length) {
+        cont.innerHTML = `<p class="chart-empty">Nenhum resultado registrado ainda.</p>`;
+        return;
+      }
+      const max = Math.max(1, ...lista.map(t => t.mediaInd + t.mediaCoop));
+      cont.innerHTML = lista.map((t, i) => {
+        const ind = t.mediaInd, coop = t.mediaCoop, total = ind + coop;
+        const pInd = (ind / max) * 100;
+        const pCoop = (coop / max) * 100;
+        return `
+        <div class="chart-row">
+          <div class="chart-label"><span class="chart-rank">${i + 1}º</span>${t.nome}</div>
+          <div class="chart-bar-track">
+            <div class="chart-seg seg-ind" style="width:${pInd}%" title="Individual: ${fmt(ind)}"><span>${ind ? fmt(ind) : ''}</span></div>
+            <div class="chart-seg seg-coop" style="width:${pCoop}%" title="Cooperação: ${fmt(coop)}"><span>${coop ? fmt(coop) : ''}</span></div>
+            <span class="chart-total">${fmt(total)}</span>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    async function atualizarRanking() {
+      try {
+        const linhas = await carregarSheetData(SHEET_RESULTADOS_URL);
+        const lista = calcularRanking(linhas);
+        renderRankingTabela(lista);
+        renderRankingChart(lista);
+      } catch (err) {
+        console.error("❌ Erro ao atualizar ranking:", err);
+      }
+    }
+
+    // ================= Chaveamento =================
+    function escapeHtml(s) {
+      return String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+    }
+
+    // ----- Detalhe (modal) do chaveamento -----
+    let chaveAtual = null;
+    let detalhesElimPorJogo = {};
+
+    const CHAVE_LABELS = {
+      q0: 'Quartas de final', q1: 'Quartas de final', q2: 'Quartas de final', q3: 'Quartas de final',
+      se: 'Semifinal', sd: 'Semifinal', final: 'Final', terceiro: 'Disputa de 3º lugar'
+    };
+
+    function parseTsElim(ts) {
+      if (!ts) return 0;
+      const m = String(ts).match(/(\d{1,2})\/(\d{1,2})\/(\d{4})\s+(\d{1,2}):(\d{1,2})(?::(\d{1,2}))?/);
+      if (!m) return 0;
+      const [, d, mo, y, h, mi, s] = m;
+      return new Date(+y, +mo - 1, +d, +h, +mi, +(s || 0)).getTime();
+    }
+
+    // numeroJogo -> { nomeAliancaNorm: {linha, __ts} } (último envio vence)
+    function construirDetalhesElim(rows) {
+      const map = {};
+      (rows || []).forEach(r => {
+        const num = String(campo(r, 'numeroJogo')).trim();
+        const nome = String(campo(r, 'nomeAlianca')).trim();
+        if (!num || !nome) return;
+        const ts = parseTsElim(campo(r, 'Carimbo de data/hora'));
+        if (!map[num]) map[num] = {};
+        const k = normKey(nome);
+        const atual = map[num][k];
+        if (!atual || ts >= (atual.__ts || 0)) map[num][k] = { ...r, __ts: ts };
+      });
+      return map;
+    }
+
+    function matchTemDetalhe(m) {
+      const nums = m.jogos ? m.jogos : [m.jogo];
+      return nums.some(n => {
+        const g = detalhesElimPorJogo[String(n)];
+        return g && Object.keys(g).length > 0;
+      });
+    }
+
+    function extrairPontosAlianca(row) {
+      const n = v => Number(v || 0) || 0;
+      const pN1 = n(campo(row, 'ptsN1Alianca'));
+      const pN2 = n(campo(row, 'ptsN2Alianca'));
+      const pN3 = n(campo(row, 'ptsN3Alianca'));
+      const pChao = n(campo(row, 'ptsChaoAlianca'));
+      const pEscalada = n(campo(row, 'ptsEscaladaAlianca'));
+      const coop = n(campo(row, 'ptsCoopAlianca'));
+      const total = n(campo(row, 'ptsTotais')) || (pN1 + pN2 + pN3 + pChao + pEscalada + coop);
+      return { pN1, pN2, pN3, pChao, pEscalada, coop, total };
+    }
+
+    function metricBox(label, val) {
+      return `<div class="res-metric-box" aria-label="${label} ${val}"><span>${label}</span><strong data-valor-final="${val}">0</strong></div>`;
+    }
+
+    function cardAliancaDetalhe(nomeAli, row, cor, vencedor) {
+      if (!row) {
+        return `<div class="res-score-card ${cor}">
+          <div class="res-alliance-name">${escapeHtml(nomeAli || 'A definir')}</div>
+          <div class="res-sem-envio">Sem envio</div>
+        </div>`;
+      }
+      const p = extrairPontosAlianca(row);
+      const times = [campo(row, 'equipe1'), campo(row, 'equipe2')].filter(Boolean).join(' / ');
+      return `<div class="res-score-card ${cor} ${vencedor ? 'winner' : ''}">
+        <div class="res-alliance-name">${escapeHtml(nomeAli)}</div>
+        ${times ? `<div class="res-alliance-times">${escapeHtml(times)}</div>` : ''}
+        <div class="res-score-big" data-valor-final="${p.total}">0</div>
+        <div class="res-metrics-grid">
+          ${metricBox('N1', p.pN1)}${metricBox('N2', p.pN2)}${metricBox('N3', p.pN3)}
+          ${metricBox('Chão', p.pChao)}${metricBox('Escalada', p.pEscalada)}
+        </div>
+        <div class="res-coop-bar ${p.coop > 0 ? 'highlight' : ''}"><span>Cooperação</span><strong data-valor-final="${p.coop}">0</strong></div>
+      </div>`;
+    }
+
+    // Lado vencedor de um jogo: 'red' (aliA), 'blue' (aliB) ou '' (pendente/empate)
+    function vencedorJogo(num, aliA, aliB) {
+      const mapa = detalhesElimPorJogo[String(num)] || {};
+      const rA = mapa[normKey(aliA)], rB = mapa[normKey(aliB)];
+      const tA = rA ? extrairPontosAlianca(rA).total : null;
+      const tB = rB ? extrairPontosAlianca(rB).total : null;
+      if (tA == null || tB == null || tA === tB) return '';
+      return tA > tB ? 'red' : 'blue';
+    }
+
+    function renderJogoDetalhe(num, aliA, aliB) {
+      const mapa = detalhesElimPorJogo[String(num)] || {};
+      const rowA = mapa[normKey(aliA)] || null;
+      const rowB = mapa[normKey(aliB)] || null;
+      const venc = vencedorJogo(num, aliA, aliB);
+      return `<div class="resultado-cards">
+        ${cardAliancaDetalhe(aliA, rowA, 'red', venc === 'red')}
+        ${cardAliancaDetalhe(aliB, rowB, 'blue', venc === 'blue')}
+      </div>`;
+    }
+
+    function animarValoresChave(root) {
+      root.querySelectorAll('[data-valor-final]').forEach(el => {
+        const final = Number(el.getAttribute('data-valor-final')) || 0;
+        const dur = 600, inicio = performance.now();
+        function step(t) {
+          const p = Math.min(1, (t - inicio) / dur);
+          const eased = 1 - Math.pow(1 - p, 3);
+          el.textContent = Math.round(final * eased);
+          if (p < 1) requestAnimationFrame(step); else el.textContent = final;
+        }
+        requestAnimationFrame(step);
+      });
+    }
+
+    function abrirDetalheChave(id) {
+      if (!chaveAtual) return;
+      const mapa = {
+        q0: chaveAtual.quartas[0], q1: chaveAtual.quartas[1], q2: chaveAtual.quartas[2], q3: chaveAtual.quartas[3],
+        se: chaveAtual.semis.esq, sd: chaveAtual.semis.dir, final: chaveAtual.final, terceiro: chaveAtual.terceiro
+      };
+      const m = mapa[id];
+      if (!m) return;
+      const [aliA, aliB] = m.aliancas;
+      const isSerie = !!m.jogos;
+      const jogos = isSerie ? m.jogos : [m.jogo];
+
+      const modal = document.getElementById('resultadoModal');
+      const prefixo = document.getElementById('modalTituloPrefixo');
+      const tituloNum = document.getElementById('modalNumeroJogo');
+      const conteudo = document.getElementById('modalConteudo');
+      if (!modal) return;
+      if (prefixo) prefixo.textContent = CHAVE_LABELS[id] || 'Confronto';
+      if (tituloNum) tituloNum.textContent = isSerie ? '(melhor de 3)' : `— Jogo ${jogos[0]}`;
+
+      if (isSerie) {
+        const resumo = `<div class="chave-serie-resumo">Série: <strong>${m.vitA} × ${m.vitB}</strong>${m.definido ? ` — <span class="campeao-tag">🏆 ${escapeHtml(m.vencedor)}</span>` : ''}</div>`;
+        const abas = jogos.map((num, i) => {
+          const venc = vencedorJogo(num, aliA, aliB);
+          return `<button class="chave-jogo-aba ${i === 0 ? 'active' : ''}" data-jogo-idx="${i}"><span class="aba-dot ${venc || 'vazio'}"></span>Jogo ${escapeHtml(num)}</button>`;
+        }).join('');
+        const paineis = jogos.map((num, i) =>
+          `<div class="chave-jogo-painel" data-jogo-idx="${i}" ${i === 0 ? '' : 'hidden'}>${renderJogoDetalhe(num, aliA, aliB)}</div>`
+        ).join('');
+        conteudo.innerHTML = `${resumo}<div class="chave-jogo-abas">${abas}</div>${paineis}`;
+      } else {
+        conteudo.innerHTML = renderJogoDetalhe(jogos[0], aliA, aliB);
+      }
+
+      modal.style.display = 'block';
+      requestAnimationFrame(() => modal.classList.add('mostrar'));
+      document.documentElement.style.overflow = 'hidden';
+      document.body.style.overflow = 'hidden';
+      const painelAtivo = conteudo.querySelector('.chave-jogo-painel:not([hidden])') || conteudo;
+      animarValoresChave(painelAtivo);
+    }
+
+    // Renderiza um "chip" de aliança dentro de um confronto
+    function chipAlianca(nome, times, { vencedor = false, perdedor = false, pts = null } = {}) {
+      if (!nome) {
+        return `<div class="ch-ali pendente"><div class="ch-ali-info"><span class="ch-ali-nome">A definir</span></div></div>`;
+      }
+      const cls = vencedor ? 'vencedor' : (perdedor ? 'perdedor' : '');
+      const timesTxt = (times && times.length) ? `<span class="ch-ali-times">${escapeHtml(times.join(' / '))}</span>` : '';
+      const ptsTxt = (pts != null) ? `<span class="ch-ali-pts">${pts}</span>` : '';
+      return `<div class="ch-ali ${cls}"><div class="ch-ali-info"><span class="ch-ali-nome">${escapeHtml(nome)}</span>${timesTxt}</div>${ptsTxt}</div>`;
+    }
+
+    // data-chave-id fica sempre presente (usado no layout mobile);
+    // clicabilidade só quando há resultado a exibir.
+    function attrsClicavel(m, id) {
+      const base = ` data-chave-id="${id}"`;
+      if (!matchTemDetalhe(m)) return { cls: '', attrs: base, hint: '' };
+      return {
+        cls: ' ch-clicavel',
+        attrs: base + ` role="button" tabindex="0" aria-label="Ver detalhes do confronto"`,
+        hint: `<div class="ch-detalhe-hint">ver detalhes</div>`
+      };
+    }
+
+    // Confronto de 1 jogo (quartas/semis)
+    function cardJogo(m, label, id) {
+      const [a, b] = m.aliancas;
+      const chipA = chipAlianca(a, m.times[0], { vencedor: m.vencedor === a && m.definido, perdedor: m.definido && m.perdedor === a, pts: m.pa });
+      const chipB = chipAlianca(b, m.times[1], { vencedor: m.vencedor === b && m.definido, perdedor: m.definido && m.perdedor === b, pts: m.pb });
+      const cl = attrsClicavel(m, id);
+      return `<div class="ch-match${cl.cls}"${cl.attrs}>
+        ${label ? `<div class="ch-fase-label">${label}</div>` : ''}
+        ${chipA}<div class="ch-vs">vs</div>${chipB}
+        ${cl.hint}
+      </div>`;
+    }
+
+    // Confronto melhor-de-3 (final / 3º lugar)
+    function cardSerie(m, label, extraClass, id) {
+      const [a, b] = m.aliancas;
+      const chipA = chipAlianca(a, m.times[0], { vencedor: m.vencedor === a && m.definido, perdedor: m.definido && m.perdedor === a });
+      const chipB = chipAlianca(b, m.times[1], { vencedor: m.vencedor === b && m.definido, perdedor: m.definido && m.perdedor === b });
+      const temSerie = (m.vitA + m.vitB) > 0;
+      const serieTxt = temSerie ? `<div class="ch-serie">Série: ${m.vitA} × ${m.vitB}</div>` : '';
+      const campeao = m.definido ? `<div class="ch-campeao">🏆 ${escapeHtml(m.vencedor)}</div>` : '';
+      const cl = attrsClicavel(m, id);
+      return `<div class="ch-match ${extraClass}${cl.cls}"${cl.attrs}>
+        <div class="ch-fase-label">${label}</div>
+        ${chipA}<div class="ch-vs">vs</div>${chipB}
+        ${serieTxt}${campeao}
+        ${cl.hint}
+      </div>`;
+    }
+
+    function renderChaveamento(c) {
+      const cont = document.getElementById('chaveamento');
+      // 5 colunas (bracket clássico): quartas | semi | final+3º | semi | quartas
+      const colQuartasEsq = `<div class="chave-col">
+        ${cardJogo(c.quartas[0], 'Quartas', 'q0')}
+        ${cardJogo(c.quartas[1], 'Quartas', 'q1')}
+      </div>`;
+      const colSemiEsq = `<div class="chave-col">
+        ${cardJogo(c.semis.esq, 'Semifinal', 'se')}
+      </div>`;
+      const centro = `<div class="chave-centro">
+        ${cardSerie(c.final, 'Final', 'ch-final', 'final')}
+        ${cardSerie(c.terceiro, '3º lugar', 'ch-terceiro', 'terceiro')}
+      </div>`;
+      const colSemiDir = `<div class="chave-col">
+        ${cardJogo(c.semis.dir, 'Semifinal', 'sd')}
+      </div>`;
+      const colQuartasDir = `<div class="chave-col">
+        ${cardJogo(c.quartas[2], 'Quartas', 'q2')}
+        ${cardJogo(c.quartas[3], 'Quartas', 'q3')}
+      </div>`;
+      // Divisores de fase (visíveis só no mobile, posicionados via order)
+      const divisores = `
+        <div class="chave-sec-divisor" data-div="quartas"><span>Quartas de final</span></div>
+        <div class="chave-sec-divisor" data-div="semi"><span>Semifinal</span></div>
+        <div class="chave-sec-divisor" data-div="finais"><span>Final e 3º lugar</span></div>`;
+      cont.innerHTML = divisores + colQuartasEsq + colSemiEsq + centro + colSemiDir + colQuartasDir;
+      // desenha as linhas do bracket após o layout estabilizar
+      requestAnimationFrame(desenharConectoresChave);
+    }
+
+    // Linhas clássicas do bracket (quartas -> semis -> final), desenhadas
+    // sobre um SVG a partir das posições reais dos cards. Só no desktop
+    // (>=992px), onde as 5 colunas ficam lado a lado.
+    const NS_SVG = 'http://www.w3.org/2000/svg';
+    function desenharConectoresChave() {
+      const wrap = document.getElementById('chaveamento');
+      if (!wrap) return;
+      let svg = wrap.querySelector('.chave-conectores');
+      const desktop = window.matchMedia('(min-width: 992px)').matches;
+      if (!desktop) { if (svg) svg.remove(); return; }
+      if (!svg) {
+        svg = document.createElementNS(NS_SVG, 'svg');
+        svg.setAttribute('class', 'chave-conectores');
+        svg.setAttribute('aria-hidden', 'true');
+        wrap.insertBefore(svg, wrap.firstChild);
+      }
+      const wr = wrap.getBoundingClientRect();
+      const box = id => {
+        const el = wrap.querySelector(`.ch-match[data-chave-id="${id}"]`);
+        if (!el) return null;
+        const r = el.getBoundingClientRect();
+        const left = r.left - wr.left + wrap.scrollLeft;
+        const top = r.top - wr.top + wrap.scrollTop;
+        return { left, right: left + r.width, midY: top + r.height / 2 };
+      };
+      const q0 = box('q0'), q1 = box('q1'), se = box('se'),
+            fi = box('final'), sd = box('sd'), q2 = box('q2'), q3 = box('q3');
+      if (!q0 || !q1 || !se || !fi || !sd || !q2 || !q3) { svg.innerHTML = ''; return; }
+
+      // une dois cards de uma coluna ao card da coluna seguinte (formato "]")
+      function elboPar(a, b, alvo, dir) {
+        // dir: +1 avança para a direita (esq->centro), -1 para a esquerda
+        const xa = dir > 0 ? a.right : a.left;
+        const xb = dir > 0 ? b.right : b.left;
+        const xAlvo = dir > 0 ? alvo.left : alvo.right;
+        const xJoin = (Math.max(xa, xb) + xAlvo) / 2;
+        return [
+          `M ${xa} ${a.midY} H ${xJoin}`,
+          `M ${xb} ${b.midY} H ${xJoin}`,
+          `M ${xJoin} ${a.midY} V ${b.midY}`,
+          `M ${xJoin} ${alvo.midY} H ${xAlvo}`
+        ].join(' ');
+      }
+      // liga um card ao próximo (semi -> final), com cotovelo simples
+      function elboUm(a, alvo, dir) {
+        const xa = dir > 0 ? a.right : a.left;
+        const xAlvo = dir > 0 ? alvo.left : alvo.right;
+        const xJoin = (xa + xAlvo) / 2;
+        return `M ${xa} ${a.midY} H ${xJoin} V ${alvo.midY} H ${xAlvo}`;
+      }
+
+      const d = [
+        elboPar(q0, q1, se, +1),   // quartas esq -> semi esq
+        elboUm(se, fi, +1),        // semi esq -> final
+        elboPar(q2, q3, sd, -1),   // quartas dir -> semi dir
+        elboUm(sd, fi, -1)         // semi dir -> final
+      ].join(' ');
+
+      svg.innerHTML = `<path d="${d}" fill="none" stroke="#b3c1d1" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`;
+    }
+
+    // Redesenha as linhas do bracket quando a janela muda de tamanho
+    let _conectoresTimer = null;
+    window.addEventListener('resize', () => {
+      clearTimeout(_conectoresTimer);
+      _conectoresTimer = setTimeout(desenharConectoresChave, 150);
+    });
+
+    function renderAliancas(aliancas) {
+      const grid = document.getElementById('aliancas-grid');
+      const nomes = Object.keys(aliancas);
+      if (!nomes.length) {
+        grid.innerHTML = `<p class="ranking-empty">Nenhuma aliança cadastrada.</p>`;
+        return;
+      }
+      grid.innerHTML = nomes.map(nome => {
+        const times = aliancas[nome] || [];
+        const linhas = times.map((t, i) =>
+          `<div class="ali-time"><span class="ali-time-badge">${i + 1}</span>${escapeHtml(t)}</div>`
+        ).join('');
+        return `<div class="ali-card">
+          <div class="ali-card-nome">${escapeHtml(nome)}</div>
+          <div class="ali-times">${linhas}</div>
+        </div>`;
+      }).join('');
+    }
+
+    async function atualizarChaveamento() {
+      try {
+        const [aliancasRows, jogosRows, resultadosRows] = await Promise.all([
+          carregarSheetData(SHEET_ALIANCAS_URL),
+          carregarSheetData(SHEET_JOGOS_ELIM_URL),
+          carregarSheetData(SHEET_RESULTADOS_ELIM_URL)
+        ]);
+        const c = construirChaveamento(aliancasRows, jogosRows, resultadosRows);
+        detalhesElimPorJogo = construirDetalhesElim(resultadosRows);
+        chaveAtual = c;
+        renderChaveamento(c);
+        renderAliancas(c.aliancas);
+      } catch (err) {
+        console.error("❌ Erro ao atualizar chaveamento:", err);
+      }
+    }
+
+    // ================= Navegação por âncora =================
+    const VIEWS = ['cronograma', 'ranking', 'chaveamento', 'aliancas'];
+    function mostrarView(view) {
+      const atual = VIEWS.includes(view) ? view : 'cronograma';
+      VIEWS.forEach(v => {
+        const el = document.getElementById(`view-${v}`);
+        if (el) el.hidden = v !== atual;
+      });
+      document.querySelectorAll('.page-nav-btn').forEach(b =>
+        b.classList.toggle('active', b.dataset.view === atual));
+      // rótulo do botão hambúrguer reflete a página atual; fecha o menu
+      const btnAtivo = document.querySelector(`.page-nav-btn[data-view="${atual}"]`);
+      const lbl = document.getElementById('navToggleLabel');
+      if (lbl && btnAtivo) lbl.textContent = btnAtivo.textContent;
+      fecharMenuNav();
+      if (atual === 'ranking') atualizarRanking();
+      if (atual === 'chaveamento' || atual === 'aliancas') atualizarChaveamento();
+    }
+    function rota() {
+      const hash = (location.hash || '').replace('#', '');
+      mostrarView(hash);
+    }
+    window.addEventListener('hashchange', rota);
+    rota();
+
+    // ================= Menu hambúrguer (celular) =================
+    function fecharMenuNav() {
+      const nav = document.querySelector('.page-nav');
+      if (nav) nav.classList.remove('open');
+      const t = document.getElementById('navToggle');
+      if (t) t.setAttribute('aria-expanded', 'false');
+    }
+    const navToggle = document.getElementById('navToggle');
+    if (navToggle) {
+      navToggle.addEventListener('click', e => {
+        e.stopPropagation();
+        const nav = navToggle.closest('.page-nav');
+        const aberto = nav.classList.toggle('open');
+        navToggle.setAttribute('aria-expanded', aberto ? 'true' : 'false');
+      });
+      // clicar fora fecha o menu
+      document.addEventListener('click', e => {
+        const nav = document.querySelector('.page-nav.open');
+        if (nav && !nav.contains(e.target)) fecharMenuNav();
+      });
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') fecharMenuNav();
+      });
+    }
+
+    // Sub-abas do ranking
+    document.querySelectorAll('.rank-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.rank-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        const which = tab.dataset.tab;
+        document.getElementById('rank-panel-tabela').hidden = which !== 'tabela';
+        document.getElementById('rank-panel-grafico').hidden = which !== 'grafico';
+      });
+    });
 
     const inputPesquisa = document.getElementById('pesquisa-time');
     if (inputPesquisa) {
@@ -591,18 +2089,42 @@
 
     document.addEventListener('click', e => {
       const btn = e.target.closest('.btn-resultado');
-      if (btn) { abrirResultadoJogo(btn.dataset.numero); }
+      if (btn) {
+        const prefixo = document.getElementById('modalTituloPrefixo');
+        if (prefixo) prefixo.textContent = 'Resultado do Jogo';
+        abrirResultadoJogo(btn.dataset.numero);
+        return;
+      }
+      const chave = e.target.closest('.ch-match.ch-clicavel');
+      if (chave) { abrirDetalheChave(chave.dataset.chaveId); return; }
+      const aba = e.target.closest('.chave-jogo-aba');
+      if (aba) {
+        const idx = aba.dataset.jogoIdx;
+        const wrap = aba.closest('.modal-conteudo');
+        wrap.querySelectorAll('.chave-jogo-aba').forEach(b => b.classList.toggle('active', b === aba));
+        let ativo = null;
+        wrap.querySelectorAll('.chave-jogo-painel').forEach(p => {
+          const mostrar = p.dataset.jogoIdx === idx;
+          p.hidden = !mostrar;
+          if (mostrar) ativo = p;
+        });
+        if (ativo) animarValoresChave(ativo);
+        return;
+      }
       if (e.target.matches('[data-close-modal]')) {
         fecharResultadoJogo();
       }
     });
     document.addEventListener('keydown', e => {
-      if (e.key === 'Escape') {
-        fecharResultadoJogo();
+      if (e.key === 'Escape') { fecharResultadoJogo(); return; }
+      if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.ch-match.ch-clicavel')) {
+        e.preventDefault();
+        abrirDetalheChave(e.target.dataset.chaveId);
       }
     });
   </script>
-  <script type="module" src="../../website/games-schedule/resultsModal.js"></script>
-
+  <script type="text/plain" src="../../website/games-schedule/resultsModal.js"></script>
+  <script type="module" src="listaPartidas.js"></script>
 </body>
+
 </html>
