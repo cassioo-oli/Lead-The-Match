@@ -33,6 +33,13 @@ nav {
   background: var(--azul-escuro);
 }
 
+.auth-pending body { visibility: hidden; }
+.auth-actions { align-items: center; color: #dcecff; display: flex; flex: 0 0 auto; gap: 10px; padding: 8px 0; }
+.auth-email { font-size: .78rem; max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.auth-logout { background: transparent; border: 1px solid rgba(255,255,255,.55); border-radius: 7px; color: #fff; cursor: pointer; font: inherit; font-size: .8rem; font-weight: 700; padding: 7px 11px; }
+.auth-logout:hover { background: rgba(255,255,255,.14); }
+.auth-logout:disabled { cursor: wait; opacity: .65; }
+
 .nav-content,
 .container {
   width: min(1120px, calc(100% - 40px));

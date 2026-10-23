@@ -6,7 +6,8 @@
   <title>Acessar | Lead The Match</title>
   <link rel="stylesheet" href="stylesheet.css">
   <link rel="stylesheet" href="login.css">
-  <script src="login.js" defer></script>
+  <link rel="stylesheet" href="login-firebase.css">
+  <script type="module" src="login.js"></script>
 </head>
 <body class="login-page">
   <main class="login-layout">
@@ -21,15 +22,14 @@
       <form id="loginForm" class="login-card">
         <p class="etiqueta azul">ACESSO DA EQUIPE</p>
         <h2>Entrar no Lead The Match</h2>
-        <p class="login-help">Use o usuário e a senha recebidos pela sua equipe.</p>
-        <label for="usuarioLogin">Usuário</label>
-        <input id="usuarioLogin" name="usuario" type="text" autocomplete="username" placeholder="Ex.: techhunters" required>
+        <p class="login-help">Use o e-mail e a senha cadastrados para a sua equipe.</p>
+        <label for="usuarioLogin">E-mail</label>
+        <input id="usuarioLogin" name="email" type="email" autocomplete="username" placeholder="equipe@exemplo.com" required>
         <label for="senhaLogin">Senha</label>
         <input id="senhaLogin" name="senha" type="password" autocomplete="current-password" placeholder="Digite sua senha" required>
         <label class="remember-option"><input id="manterLogado" type="checkbox" name="manterLogado"><span>Manter conectado neste dispositivo</span></label>
         <p id="loginStatus" class="login-status" aria-live="polite"></p>
         <button class="login-submit" type="submit">Acessar Lead The Match</button>
-        <div class="test-account"><strong>Conta de teste</strong><span>Usuário: <b>teste</b> · Senha: <b>lead2026</b></span></div>
       </form>
     </section>
   </main>
