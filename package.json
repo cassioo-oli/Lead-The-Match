@@ -5,6 +5,7 @@
   "type": "module",
   "description": "Utilitários e teste do ranking do cronograma de jogos",
   "scripts": {
-    "test": "node ranking.test.js"
+    "start": "node scripts/serve.js",
+    "test": "node ranking.test.js && node scripts/test-statistics.cjs"
   }
 }

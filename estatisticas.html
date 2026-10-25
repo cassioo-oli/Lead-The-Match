@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="estatisticas.css">
   <script type="module" src="auth-guard.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
-  <script src="estatisticas.js" defer></script>
+  <script type="module" src="estatisticas.js"></script>
 </head>
 <body>
   <nav><div class="nav-content">
@@ -30,7 +30,7 @@
           <select id="filtroEquipe" disabled><option value="">Carregando equipes...</option></select>
         </label>
       </div>
-      <p id="statusDados" class="stats-status" aria-live="polite">Carregando as planilhas de respostas...</p>
+      <p id="statusDados" class="stats-status" aria-live="polite">Carregando os dados desta conta...</p>
       <section class="stats-summary" aria-label="Resumo da equipe">
         <article class="summary-card"><span>Partidas observadas</span><strong id="totalPartidas">—</strong><small>registros de Scouting</small></article>
         <article class="summary-card"><span>Nota geral média</span><strong id="mediaNota">—</strong><small>escala de 1 a 5</small></article>
@@ -39,11 +39,11 @@
       </section>
       <section class="stats-grid">
         <article class="stats-chart-card stats-chart-wide">
-          <div class="chart-title"><div><p class="etiqueta azul">VISÃO DO TORNEIO</p><h2>Nota média por equipe</h2></div><p>Equipes que já possuem avaliações salvas.</p></div>
+          <div class="chart-title"><div><p class="etiqueta azul">SUAS AVALIAÇÕES</p><h2>Nota média por equipe</h2></div><p>Até 12 equipes com notas registradas por esta conta.</p></div>
           <div class="chart-box"><canvas id="graficoRankingNotas"></canvas><p class="chart-empty" id="vazioRanking" hidden>Ainda não há notas gerais suficientes para montar este gráfico.</p></div>
         </article>
         <article class="stats-chart-card">
-          <div class="chart-title"><div><p class="etiqueta azul">SCOUTING</p><h2>Desempenho do robô</h2></div><p>Média dos critérios observados.</p></div>
+          <div class="chart-title"><div><p class="etiqueta azul">SCOUTING</p><h2>Desempenho do robô</h2></div><p>Média dos critérios observados. Itens não preenchidos ficam sem coluna.</p></div>
           <div class="chart-box"><canvas id="graficoDesempenho"></canvas><p class="chart-empty" id="vazioDesempenho" hidden>Selecione uma equipe com Scouts registrados.</p></div>
         </article>
         <article class="stats-chart-card">
@@ -55,7 +55,7 @@
         <div class="pit-profile-heading"><p class="etiqueta azul">PIT SCOUTING</p><h2>Perfil técnico do robô</h2><p>Informações preenchidas na entrevista da equipe.</p></div>
         <div id="perfilPit" class="pit-profile-grid"><p class="pit-empty">Escolha uma equipe para ver o perfil técnico.</p></div>
       </section>
-      <section class="stats-help"><h2>Como os dados chegam aqui?</h2><p>Esta página lê as respostas das duas planilhas do Google Forms. Após salvar um Scout ou Pit Scout, atualize a página para carregar a resposta nova.</p></section>
+      <section class="stats-help"><h2>Como os dados chegam aqui?</h2><p>Esta página mostra apenas os Scouts e Pit Scouts salvos pela conta conectada. Cronograma e ranking continuam compartilhados entre as equipes.</p></section>
     </section>
   </main>
   <footer>Lead The Match • Torneio de Robótica de Gravataí</footer>

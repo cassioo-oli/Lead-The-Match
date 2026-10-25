@@ -158,8 +158,7 @@
           </section>
 
           <section class="live-card">
-            <h3>Estratégia e final</h3><p>Registre a resistência, a escalada e a cooperação.</p>
-            <fieldset class="choice-group"><legend>Resposta à defesa</legend><div class="choice-options"><input id="defesa-resistente" type="radio" name="defesa" value="defesa_resistente"><label for="defesa-resistente">Resistente</label><input id="defesa-bloqueado" type="radio" name="defesa" value="defesa_facilmente_bloqueado"><label for="defesa-bloqueado">Bloqueado facilmente</label><input id="defesa-evita" type="radio" name="defesa" value="defesa_evita_confronto"><label for="defesa-evita">Evita confronto</label></div></fieldset>
+            <h3>Estratégia e final</h3><p>Registre a escalada, a cooperação e as penalidades.</p>
             <fieldset class="choice-group"><legend>Escalada</legend><div class="choice-options"><input id="escala-rapida" type="radio" name="escalada" value="escalada_rapida"><label for="escala-rapida">Rápida</label><input id="escala-instavel" type="radio" name="escalada" value="escalada_instavel"><label for="escala-instavel">Instável</label><input id="escala-nao" type="radio" name="escalada" value="escalada_nao_tentou"><label for="escala-nao">Não tentou</label></div></fieldset>
             <fieldset class="choice-group"><legend>Cooperação</legend><div class="choice-options"><input id="coop-sim" type="radio" name="cooperacao" value="tentou_coop_sim"><label for="coop-sim">Tentou cooperar</label><input id="coop-nao" type="radio" name="cooperacao" value="tentou_coop_nao"><label for="coop-nao">Não tentou</label></div></fieldset>
             <fieldset class="choice-group"><legend>Penalidade observada</legend><div class="choice-options"><input id="pen-nenhum" type="radio" name="penalidade" value="penalidade_nenhum"><label for="pen-nenhum">Nenhuma</label><input id="pen-amarelo" type="radio" name="penalidade" value="penalidade_amarelo"><label for="pen-amarelo">Amarela</label><input id="pen-vermelho" type="radio" name="penalidade" value="penalidade_vermelho"><label for="pen-vermelho">Vermelha</label></div></fieldset>
@@ -190,13 +189,13 @@
     const liveRobotMarker = document.getElementById('liveRobotMarker');
     const liveInvertButton = document.getElementById('liveInverterQuadra');
     const livePositionStatus = document.getElementById('livePositionStatus');
-    let livePosition = null;
-    let liveFieldInverted = false;
+    window.livePosition = null;
+    window.liveFieldInverted = false;
 
     function updateLiveMarker() {
-      if (!livePosition) return;
-      const x = liveFieldInverted ? 100 - livePosition.x : livePosition.x;
-      const y = liveFieldInverted ? 100 - livePosition.y : livePosition.y;
+      if (!window.livePosition) return;
+      const x = window.liveFieldInverted ? 100 - window.livePosition.x : window.livePosition.x;
+      const y = window.liveFieldInverted ? 100 - window.livePosition.y : window.livePosition.y;
       liveRobotMarker.style.left = `${x}%`;
       liveRobotMarker.style.top = `${y}%`;
       liveRobotMarker.classList.add('visible');
@@ -207,26 +206,26 @@
       const area = liveFieldMap.getBoundingClientRect();
       const xVisual = Math.max(0, Math.min(100, ((event.clientX - area.left) / area.width) * 100));
       const yVisual = Math.max(0, Math.min(100, ((event.clientY - area.top) / area.height) * 100));
-      livePosition = liveFieldInverted
+      window.livePosition = window.liveFieldInverted
         ? { x: 100 - xVisual, y: 100 - yVisual }
         : { x: xVisual, y: yVisual };
       updateLiveMarker();
     });
 
     liveInvertButton.addEventListener('click', () => {
-      liveFieldInverted = !liveFieldInverted;
-      liveFieldMap.classList.toggle('inverted', liveFieldInverted);
-      liveInvertButton.textContent = liveFieldInverted ? '↺ Voltar posição original' : '↻ Inverter quadra';
+      window.liveFieldInverted = !window.liveFieldInverted;
+      liveFieldMap.classList.toggle('inverted', window.liveFieldInverted);
+      liveInvertButton.textContent = window.liveFieldInverted ? '↺ Voltar posição original' : '↻ Inverter quadra';
       updateLiveMarker();
     });
 
     document.getElementById('liveScoutForm').addEventListener('submit', (event) => {
       event.preventDefault();
-      if (!livePosition) {
+      if (!window.livePosition) {
         document.getElementById('liveScoutStatus').textContent = 'Marque a posição inicial do robô na quadra antes de salvar.';
         return;
       }
-      document.getElementById('liveScoutStatus').textContent = 'Interface pronta. Na próxima etapa vamos ligar estas respostas e a posição ao Google Forms e à planilha.';
+      document.getElementById('liveScoutStatus').textContent = 'Pronto para salvar o Scout nesta conta.';
     });
   </script>
   <script>
@@ -263,6 +262,6 @@
       partidaInfo.classList.add('match-warning');
     }
   </script>
-  <script src="scouting-envio.js"></script>
+  <script type="module" src="scouting-envio.js"></script>
 </body>
 </html>
