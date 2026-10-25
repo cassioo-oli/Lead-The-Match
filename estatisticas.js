@@ -59,7 +59,7 @@ function graficoNotas() {
     if (!notasPorEquipe.has(nome)) notasPorEquipe.set(nome, []);
     notasPorEquipe.get(nome).push(nota);
   });
-  const dados = [...notasPorEquipe].map(([nome, notas]) => ({ nome, nota: media(notas) })).sort((a, b) => b.nota - a.nota).slice(0, 12);
+  const dados = [...notasPorEquipe].map(([nome, notas]) => ({ nome, nota: media(notas) })).sort((a, b) => b.nota - a.nota);
   apagar(rankingChart); vazio('vazioRanking', !dados.length); if (!dados.length) return;
   rankingChart = new Chart(document.getElementById('graficoRankingNotas'), {
     type: 'bar',
